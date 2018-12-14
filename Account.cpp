@@ -8,8 +8,7 @@ Account::Account(int accountId , int password , int amount):accountId(accountId)
     pthread_mutex_init(&amount_write, NULL);
     pthread_mutex_init(&vip_read, NULL);
     pthread_mutex_init(&vip_write, NULL);
-    //changes
-
+    
 }
 
 Account::~Account(){
