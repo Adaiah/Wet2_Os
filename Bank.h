@@ -6,8 +6,12 @@
 #define WET2_BANK_H
 
 #include "Account.h"
+#include <map>
 
-extern map<>
-void* miniMainBank(void*);
+extern map<int, Account> bank_accounts;
+//
+
+void *miniMainBank(void* args);
+
 
 #endif //WET2_BANK_H

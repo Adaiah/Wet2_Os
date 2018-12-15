@@ -78,37 +78,79 @@ CMakeFiles\wet2.dir\main.cpp.s: cmake_force
 <<
 
 CMakeFiles\wet2.dir\Account.cpp.obj: CMakeFiles\wet2.dir\flags.make
-CMakeFiles\wet2.dir\Account.cpp.obj: Account.cpp
+CMakeFiles\wet2.dir\Account.cpp.obj: ..\Account.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/wet2.dir/Account.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\wet2.dir\Account.cpp.obj /FdCMakeFiles\wet2.dir\ /FS -c "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\Account.cpp"
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\wet2.dir\Account.cpp.obj /FdCMakeFiles\wet2.dir\ /FS -c "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\Account.cpp"
 <<
 
 CMakeFiles\wet2.dir\Account.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/Account.cpp.i"
 	C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\cl.exe > CMakeFiles\wet2.dir\Account.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\Account.cpp"
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\Account.cpp"
 <<
 
 CMakeFiles\wet2.dir\Account.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/Account.cpp.s"
 	C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\wet2.dir\Account.cpp.s /c "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\Account.cpp"
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\wet2.dir\Account.cpp.s /c "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\Account.cpp"
+<<
+
+CMakeFiles\wet2.dir\Bank.cpp.obj: CMakeFiles\wet2.dir\flags.make
+CMakeFiles\wet2.dir\Bank.cpp.obj: ..\Bank.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/wet2.dir/Bank.cpp.obj"
+	C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\wet2.dir\Bank.cpp.obj /FdCMakeFiles\wet2.dir\ /FS -c "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\Bank.cpp"
+<<
+
+CMakeFiles\wet2.dir\Bank.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/Bank.cpp.i"
+	C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\cl.exe > CMakeFiles\wet2.dir\Bank.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\Bank.cpp"
+<<
+
+CMakeFiles\wet2.dir\Bank.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/Bank.cpp.s"
+	C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\wet2.dir\Bank.cpp.s /c "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\Bank.cpp"
+<<
+
+CMakeFiles\wet2.dir\ATM.cpp.obj: CMakeFiles\wet2.dir\flags.make
+CMakeFiles\wet2.dir\ATM.cpp.obj: ATM.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/wet2.dir/ATM.cpp.obj"
+	C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\wet2.dir\ATM.cpp.obj /FdCMakeFiles\wet2.dir\ /FS -c "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\ATM.cpp"
+<<
+
+CMakeFiles\wet2.dir\ATM.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wet2.dir/ATM.cpp.i"
+	C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\cl.exe > CMakeFiles\wet2.dir\ATM.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\ATM.cpp"
+<<
+
+CMakeFiles\wet2.dir\ATM.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wet2.dir/ATM.cpp.s"
+	C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\wet2.dir\ATM.cpp.s /c "D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\ATM.cpp"
 <<
 
 # Object files for target wet2
 wet2_OBJECTS = \
 "CMakeFiles\wet2.dir\main.cpp.obj" \
-"CMakeFiles\wet2.dir\Account.cpp.obj"
+"CMakeFiles\wet2.dir\Account.cpp.obj" \
+"CMakeFiles\wet2.dir\Bank.cpp.obj" \
+"CMakeFiles\wet2.dir\ATM.cpp.obj"
 
 # External object files for target wet2
 wet2_EXTERNAL_OBJECTS =
 
 wet2.exe: CMakeFiles\wet2.dir\main.cpp.obj
 wet2.exe: CMakeFiles\wet2.dir\Account.cpp.obj
+wet2.exe: CMakeFiles\wet2.dir\Bank.cpp.obj
+wet2.exe: CMakeFiles\wet2.dir\ATM.cpp.obj
 wet2.exe: CMakeFiles\wet2.dir\build.make
 wet2.exe: CMakeFiles\wet2.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable wet2.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable wet2.exe"
 	"C:\Program Files\JetBrains\CLion 2018.3.1\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\wet2.dir --manifests  -- C:\PROGRA~2\MICROS~1\2017\COMMUN~1\VC\Tools\MSVC\1414~1.264\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\wet2.dir\objects1.rsp @<<
  /out:wet2.exe /implib:wet2.lib /pdb:"D:\Google Drive\Studies-EE\semester 7\operatingSystem\wet2\cmake-build-debug\wet2.pdb" /version:0.0  /machine:X86 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 <<

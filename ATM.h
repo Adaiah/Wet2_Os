@@ -6,8 +6,9 @@
 #define WET2_ATM_H
 
 #include "Account.h"
+#include <map>
 
-extern map<>
-void* miniMainATM(void*);
+extern map<int, Account> bank_accounts;
+void* miniMainATM(void* args);
 
 #endif //WET2_ATM_H

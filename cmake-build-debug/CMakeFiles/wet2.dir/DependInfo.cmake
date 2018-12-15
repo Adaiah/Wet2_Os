@@ -4,7 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/Account.cpp" "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/CMakeFiles/wet2.dir/Account.cpp.obj"
+  "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/ATM.cpp" "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/CMakeFiles/wet2.dir/ATM.cpp.obj"
+  "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/Account.cpp" "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/CMakeFiles/wet2.dir/Account.cpp.obj"
+  "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/Bank.cpp" "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/CMakeFiles/wet2.dir/Bank.cpp.obj"
   "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/main.cpp" "D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/CMakeFiles/wet2.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "MSVC")
