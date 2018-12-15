@@ -10,17 +10,17 @@
 class Account {
 private:
     int accountId;
-    int password;
-    int amount;
-    pthread_mutex_t amount_read;
-    pthread_mutex_t amount_write;
+    unsigned short int password;
+    unsigned int balance;
+    pthread_mutex_t balance_read;
+    pthread_mutex_t balance_write;
     bool  isVIP;
     pthread_mutex_t vip_read;
     pthread_mutex_t vip_write;
 
 public:
     //constructor
-    Account(int accountId , int password , int amount);
+    Account(int accountId , unsigned short int password , int balance);
 
     //destructor
     ~Account();
@@ -28,15 +28,15 @@ public:
     //Methods to access data individually
     int getAccountId();
 
-    int getAmount();
+    int getBalance();
 
     bool getAccVIP();
 
-    int getPassword();
+    int checkPassword(unsigned short int password);
 
     //Methods to change  the data
     void setAccVIP();
 
-    void setAmount();
+    int setBalance( bool sign, unsigned int amount); //sign true = plus, false = minus
 };
 #endif //WET2_ACCOUNT_H

@@ -5,10 +5,16 @@
 #ifndef WET2_ATM_H
 #define WET2_ATM_H
 
+#include <streamio>
 #include "Account.h"
-#include <map>
+#include <pthread.h>
+
+#define PLUS true
+#define MINUS false
+
+using namespace std
 
 extern map<int, Account> bank_accounts;
-void* miniMainATM(void* args);
+void* miniMainATM(void*);
 
 #endif //WET2_ATM_H
