@@ -14,6 +14,9 @@ private:
     unsigned int balance;
     pthread_mutex_t balance_read;
     pthread_mutex_t balance_write;
+    pthread_mutex_t balance_readtry;
+    pthread_mutex_t balance_resource;
+    int balance_readcount, balance_writecount;
     bool  isVIP;
     pthread_mutex_t vip_read;
     pthread_mutex_t vip_write;
