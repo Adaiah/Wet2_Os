@@ -3,11 +3,32 @@
 //
 
 #include "ATM.h"
-pthread_t write_lock;
+pthread_mutex_t write_lock;
 
- void *miniMainATM(void* args);
+ void *miniMainATM(void* args){
+    Atm_args* atm_args = (Atm_args*)args;
+    int num_of_atm = atm_atgs->num_of_atm;
+    int rc, i;
+    pthread_t atms_t[num_of_atm];
+    atm_input_output atmIO[num_of_atm];
+    for(i = 0 ; i < num_of_atm ; ++i ){
+        atmIO[i].log_file_name = atm_args->log_file_name;
+        atmIO[i].input_file = atm_args->input_files[i];
+         if((rc = pthread_create(&atms_t[i], NULL, ATMAction, &atmIO[i] ))){
+             fprints(sderr, "error: pthread_create, rc: %d\n", rc);
+             return NULL;
+         }
+    }
 
- bool ATMAction(void* inputFile, void* logFile);
+
+    for (i=0 , i < num_of_atm , ++i){
+        pthread_join(atms_t[i], NULL);
+    }
+
+    return NULL;
+ }
+
+ void *ATMAction(void* args);
  bool openAccount(int accountId, int password, int initial_amount);
  bool Deposit(int accountId, int password, int amount);
  bool checkAmount(int accountId, int password);

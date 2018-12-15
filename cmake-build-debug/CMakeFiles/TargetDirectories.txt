@@ -1,3 +1,0 @@
-D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/CMakeFiles/wet2.dir
-D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

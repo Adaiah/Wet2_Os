@@ -8,11 +8,25 @@
 #include <streamio>
 #include "Account.h"
 #include <pthread.h>
+#include <string>
+#include <vector>
+
+using namespace std
 
 #define PLUS true
 #define MINUS false
 
-using namespace std
+#typedef struct{
+    int num_of_atm;
+    string log_file_name;
+    vector<string> input_files;
+}Atm_args;
+
+#typedef struct{
+    string log_file_name;
+    string input_file;
+}atm_input_output;
+
 
 extern map<int, Account> bank_accounts;
 void* miniMainATM(void*);
