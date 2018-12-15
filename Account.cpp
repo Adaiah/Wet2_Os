@@ -32,9 +32,18 @@ int Account:: getAccountId()
 
 bool Account::getAccVIP();
 
-int Account::checkPassword(int password);
+unsigned short int getPassword();
+
+int Account::checkPassword(unsigned short int password);
 
 //Methods to change  the data
 void Account::setAccVIP();
 
 int Account::setBalance( bool sign, unsigned int amount); //sign : true = plus , false = minus
+
+unsigned int printAccount(){
+    unsigned int curr_balance = this.getBalance();
+    cout <<"Account "<< this.getAccountId() <<": Balance - " << curr_balance
+        << " $ , Account Password - " << this.getPassowrd() << endl;
+    return curr_balance;
+}

@@ -6,7 +6,12 @@
 #define WET2_BANK_H
 
 #include "Account.h"
+#include <stdio.h>
+#include <streamio>
+#include <unistd.h>
 #include <map>
+
+using namespace std;
 
 extern map<int, Account> bank_accounts;
 //

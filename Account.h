@@ -32,11 +32,15 @@ public:
 
     bool getAccVIP();
 
+    unsigned short int getPassword();
+
     int checkPassword(unsigned short int password);
 
     //Methods to change  the data
     void setAccVIP();
 
     int setBalance( bool sign, unsigned int amount); //sign true = plus, false = minus
+
+    unsigned int printAccount();
 };
 #endif //WET2_ACCOUNT_H
