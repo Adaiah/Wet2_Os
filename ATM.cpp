@@ -6,7 +6,7 @@
 pthread_mutex_t write_lock;
 
 void openAccount(int AtmID, int accountID, int password, int initial_amount);
-void makeAccountVIP(int AtmID, int accountID, int password);
+void makeAccountVIP(int AtmID, int accountID, unsigned short int password);
 void Deposit(int AtmID, int accountID, int password, int amount);
 void withdraw(int AtmID, int accountID, unsigned short int password, unsigned int amount);
 void checkAmount(int AtmID, int accountId, int password);
