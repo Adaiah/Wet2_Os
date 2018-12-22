@@ -26,7 +26,6 @@ void *ATMAction(void* args){
     ifstream inputFile(atm_args->input_file.c_str());
     int ATM_id=atm_args->ATM_ID;
     string curr_line;
-    stringstream action_arg;
 
     char action;
     int accountId, accountId_target;
@@ -35,8 +34,11 @@ void *ATMAction(void* args){
 
     //inputFile.open(atm_args->input_file);
     while(getline(inputFile, curr_line)) {
+        stringstream action_arg;
+        cout<<"debug: "<<curr_line<<endl ; //todo:debug
         action_arg.str(curr_line);
         action_arg >> action >> accountId >> password;
+        cout<<"Debug: "<<action<<endl; //todo:debug
         if(action == 'O'){
             action_arg >> amount;
             openAccount(ATM_id, accountId,password,amount);
@@ -62,6 +64,7 @@ void *ATMAction(void* args){
         usleep(100000);
     }
     inputFile.close();
+    pthread_exit(NULL);
 }
 
 
@@ -90,8 +93,9 @@ void *ATMAction(void* args){
     for (i=0 ; i < tot_num_of_atm ; ++i){
         pthread_join(atms_t[i], NULL);
     }
+    finished_all_actions = true;
 
-    return NULL; //todo : check what to return
+    pthread_exit(NULL);
  }
 
 
@@ -105,6 +109,7 @@ void *ATMAction(void* args){
 // Returns: N/A
 //**************************************************************************************
  void openAccount(int AtmID, int accountID, int password, int initial_amount){
+    cout<<"Debugd: openAccout"<<endl; //todo:debug
      sleep(1);
      if (isAccountExist(accountID)) { //account exists
         pthread_mutex_lock(&log_write_mut);
@@ -129,6 +134,7 @@ void *ATMAction(void* args){
 // Returns: N/A
 //**************************************************************************************
 void Deposit(int AtmID, int accountId, int password, int amount){
+    cout<<"Debugd: Deposit"<<endl; //todo:debug
     sleep(1);
     if (!isAccountExist(accountId)) {
         pthread_mutex_lock(&log_write_mut);
@@ -146,7 +152,7 @@ void Deposit(int AtmID, int accountId, int password, int amount){
     }
     bank_accounts[accountId].setBalance(true,amount,0);
     pthread_mutex_lock(&log_write_mut);
-    logfile << AtmID << "Account " << accountId << " new balance is " << bank_accounts[accountId].getBalance() << " after "
+    logfile << AtmID << ": Account " << accountId << " new balance is " << bank_accounts[accountId].getBalance() << " after "
     << amount << " $ was deposited" << endl;
     pthread_mutex_unlock(&log_write_mut);
     return;
@@ -161,6 +167,7 @@ void Deposit(int AtmID, int accountId, int password, int amount){
 // Returns: N/A
 //**************************************************************************************
 void checkAmount(int AtmID, int accountId, int password) {
+    cout<<"Debugd: checkAmount"<<endl; //todo:debug
     sleep(1);
     if (!isAccountExist(accountId)) {
         pthread_mutex_lock(&log_write_mut);
@@ -205,6 +212,7 @@ bool isAccountExist(int accountID){
 }
 
 void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
+    cout<<"Debugd: makeAccountVIP"<<endl; //todo:debug
 //TODO: changed to write to file, please add locks to the rest of your logging
     sleep(1);
     if (!isAccountExist(accountID)) {
@@ -232,10 +240,10 @@ void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
 // Returns:
 //**************************************************************************************
 void withdraw(int AtmID, int accountID, unsigned short int password, unsigned int amount){
+    cout<<"Debugd: Withdraw"<<endl; //todo:debug
     sleep(1);
     if (!isAccountExist(accountID)) {
         pthread_mutex_lock(&log_write_mut);
-        logfile << "Error " << AtmID << ": Your transaction failed - password for account id " << accountID;
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountID
              << " does not exist" << endl;
         pthread_mutex_unlock(&log_write_mut);
@@ -243,7 +251,6 @@ void withdraw(int AtmID, int accountID, unsigned short int password, unsigned in
     }
     else if (!bank_accounts[accountID].checkPassword(password)) {
         pthread_mutex_lock(&log_write_mut);
-        logfile << "Error " << AtmID << ": Your transaction failed - password for account id " << accountID;
         logfile << "Error " << AtmID << ": Your transaction failed - password for account id " << accountID
              << " is incorrect" << endl;
         pthread_mutex_unlock(&log_write_mut);

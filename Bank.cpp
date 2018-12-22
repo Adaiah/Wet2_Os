@@ -12,10 +12,10 @@
 void *printStatus(void* args){
     map<int, Account>::iterator it;
     unsigned int bank_sum =0;
-    while(1){
+    while(!finished_all_actions){
         pthread_mutex_lock(&snapshot_mut);
-        printf("\033[2j");
-        printf("\033[1;1H");
+//        printf("\033[2J");
+//        printf("\033[1;1H");
         cout << "Current Bank Status" << endl;
         //todo: check if the map is ascending or descending
         for( it = bank_accounts.begin(); it != bank_accounts.end(); it++){
@@ -26,6 +26,7 @@ void *printStatus(void* args){
         pthread_mutex_unlock(&snapshot_mut);
         usleep(500000); //sleep for half a second
     }
+    pthread_exit(NULL);
 }
 //********************************************
 // function name: commissions
@@ -33,20 +34,24 @@ void *printStatus(void* args){
 // Parameters: None
 // Returns: NULL
 //**************************************************************************************
-void *commissions (void* args){
+void *getCommissions (void* args){
     map<int, Account>::iterator it;
     int commission_rate;
-    while(1) {
+    int temp;
+    while(!finished_all_actions) {
         commission_rate = rand() % 3 + 2; //TODO: MAKE SURE THIS IS THE RIGHT DEFINITION
-        for (it = bank_accounts.begin(); it < bank_accounts.end(); it++) {
-            if ((it->getAccVIP()) == false) {   //account not VIP
-                setBalance(false, 0, commission_rate);
+        cout << "Debug: Where I'm? "<<commission_rate << endl; //todo: debug
+        for (it = bank_accounts.begin(); it != bank_accounts.end(); it++) {
+            if ((it->second.getAccVIP()) == false) {   //account not VIP
+                temp = it->second.setBalance(false, 0, commission_rate);
+                cout << "Debug: Here I'm" <<temp<< endl; //todo: debug
             }
         }
         sleep(3);
     }
-
+    pthread_exit(NULL);
 }
+
 //********************************************
 // function name: miniMainBank
 // Description: creates the threads for the bank. a thread for printing and another for commission
@@ -63,6 +68,7 @@ void *miniMainBank(void* args) {
 
     pthread_join(printing_thread, NULL);
     pthread_join(commission_thread, NULL);
-    return NULL; //todo : check what to return
+
+    pthread_exit(NULL);
 }
 

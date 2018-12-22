@@ -26,6 +26,7 @@ using namespace std;
 extern ofstream logfile;
 extern map<int, Account> bank_accounts;
 extern pthread_mutex_t log_write_mut;
+extern bool finished_all_actions;
 
 typedef struct{
     int tot_num_of_atm;
