@@ -38,6 +38,7 @@ Account::~Account(){
     pthread_mutex_unlock(&vip_read);
     pthread_mutex_unlock(&vip_write);
 
+
     pthread_mutex_destory(&balance_read);
     pthread_mutex_destory(&balance_write);
     pthread_mutex_destory(&balance_resource);
@@ -155,17 +156,37 @@ void Account::setAccVIP(){
     pthread_mutex_unlock(&vip_write);
 }
 
+
 //********************************************
-// function name: printStatus
-// Description:
-// Parameters:
-// Returns:
+// function name: addCommission
+// Description: add a commission to the commission_taken
+// Parameters: int commission
+// Returns: void
+//**************************************************************************************
+void Account::addCommission(int commission){
+    this.commision_taken += commission;
+}
+
+//********************************************
+// function name: setBalance
+// Description: set the new balance by adding or decreasing the amount
+// Parameters: bool sign , unsigned int amount , int commission_rate
+// Returns: int
 //**************************************************************************************
 int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
     //sign : true = plus , false = minus, commission_rate=0 unless called upon by bank
     int curr_balance = 0;
     int commission = this->balance*commission_rate;
 
+    // concurrency between the snapshot printing and editing the balances
+    pthread_mutex_lock(&writing_mut);
+    snapshot_writing_counter++;
+    if(snapshot_writing_counter == 1)
+        pthread_mutex_lock(&snapshot_mut);
+    pthread_mutex_unlock(&writing_mut);
+
+
+    // concurrency between reading-writing to balance priority to writing
     pthread_mutex_lock(&balance_write);
     balance_writecount++;
     if (balance_writecount == 1)
@@ -178,8 +199,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
             curr_balance = -1;
         } else{
             this.balance = this.balance - amount - commission;
-            bank_sum+=commission;
-            curr_balance = this.balance;
+            curr_balance = this.balacne;
         }
     } else{  //increase
         this.balance = this.balance + amount;
@@ -188,19 +208,28 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
 
     pthread_mutex_unlock(&balance_resource);
 
+    // concurrency between reading-writing to balance priority to writing
     pthread_mutex_lock(&balance_write);
     balance_writecount--;
     if(balance_writecount == 0)
         pthread_mutex_unlock(&balance_readtry);
     pthread_mutex_unlock(&balance_write);
 
-    if(commission_rate>0) { //log commission charging
+    if(commission_rate>0 && curr_balance != -1) { //log commission charging
         pthread_mutex_lock(log_write_mut);
         logfile<<"Bank: commision of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
         pthread_mutex_unlock(log_write_mut);
-
+        this.addCommission(commission);
 
     }
+
+    // concurrency between the snapshot printing and editing the balances
+    pthread_mutex_lock(&writing_mut);
+    snapshot_writing_counter--;
+    if(snapshot_writing_counter == 0)
+        pthread_mutex_unlock(&snapshot_mut);
+    pthread_mutex_unlock(&writing_mut);
+
     return curr_balance;
 
 }
@@ -210,9 +239,24 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
 // Parameters:
 // Returns:
 //**************************************************************************************
-unsigned int printAccount(){
+unsigned int Account::printAccount(){
     unsigned int curr_balance = this.getBalance();
     cout <<"Account "<< this.getAccountId() <<": Balance - " << curr_balance
         << " $ , Account Password - " << this.getPassowrd() << endl;
     return curr_balance;
+}
+
+
+
+//********************************************
+// function name: getCommissionTaken
+// Description: get the commission which been taken from the account and zeroing it
+// Parameters: none
+// Returns: int
+//**************************************************************************************
+int Account::getCommissionTaken(){
+    int commission = 0;
+    commission = this.commision_taken;
+    this.commision_taken = 0;
+    return commission;
 }
