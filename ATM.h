@@ -5,7 +5,6 @@
 #ifndef WET2_ATM_H
 #define WET2_ATM_H
 
-#include <streamio>// todo: What is dis?
 #include "Account.h"
 #include <pthread.h>
 #include <string>
@@ -17,14 +16,15 @@
 #include <string>
 #include <sstream>
 
-
-using namespace std;
-
 #define PLUS true
 #define MINUS false
 
 
+using namespace std;
+
 extern ofstream logfile;
+extern map<int, Account> bank_accounts;
+extern pthread_mutex_t log_write_mut;
 
 typedef struct{
     int tot_num_of_atm;
@@ -37,8 +37,6 @@ typedef struct{
 }atm_input_output;
 
 
-extern map<int, Account> bank_accounts;
-extern pthread_mutex_t log_write_mut;
 
 void* miniMainATM(void*);
 

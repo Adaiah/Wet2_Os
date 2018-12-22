@@ -3,7 +3,6 @@
 //
 #include "Account.h"
 
-using namespace std;
 //********************************************
 // function name: Account
 // Description: c'tr, locks are unlocked initially

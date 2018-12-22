@@ -6,9 +6,11 @@
 #define WET2_ACCOUNT_H
 
 #include <pthread.h>
-#include <type_traits>
+//#include <type_traits>
 #include <iostream>
 #include <fstream>
+
+using namespace std;
 
 extern pthread_mutex_t log_write_mut;
 extern pthread_mutex_t snapshot_mut;
@@ -64,4 +66,5 @@ public:
 
     unsigned int printAccount();
 };
+
 #endif //WET2_ACCOUNT_H

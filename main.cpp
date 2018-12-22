@@ -13,7 +13,7 @@
 
 using namespace std;
 
-//global map
+//global variables
 map<int, Account> bank_accounts;
 pthread_mutex_t log_write_mut;
 pthread_mutex_t snapshot_mut;
@@ -42,4 +42,3 @@ int main(int argc, char* argv[]) {
     delete atm_args;
     return 0;
 }
-

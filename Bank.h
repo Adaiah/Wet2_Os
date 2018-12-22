@@ -7,7 +7,6 @@
 
 #include "Account.h"
 #include <stdio.h>
-#include <streamio>
 #include <unistd.h>
 #include <map>
 #include <iostream>
@@ -16,13 +15,13 @@
 
 
 using namespace std;
+
 extern pthread_mutex_t snapshot_mut;
 extern pthread_mutex_t writing_mut;
 extern int snapshot_writing_counter;
 
 extern map<int, Account> bank_accounts;
 extern ofstream logfile;
-//
 
 void *miniMainBank(void* args);
 

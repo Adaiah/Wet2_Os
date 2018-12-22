@@ -4,7 +4,6 @@
 
 #include "ATM.h"
 pthread_mutex_t write_lock;
-using namespace std;
 
 void openAccount(int AtmID, int accountID, int password, int initial_amount);
 void makeAccountVIP(int AtmID, int accountID, int password);
