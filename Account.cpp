@@ -101,7 +101,7 @@ int Account:: getAccountId(){
 //**************************************************************************************
 bool Account::getAccVIP(){
 
-    cout<<"Debug: first lock "<<endl; //todo:debug
+//    cout<<"Debug: first lock "<<endl; //todo:debug
     bool curr_VIP_status = false ;
     pthread_mutex_lock(&this->vip_readtry);
     pthread_mutex_lock(&this->vip_read);
@@ -111,7 +111,7 @@ bool Account::getAccVIP(){
     pthread_mutex_unlock(&this->vip_read);
     pthread_mutex_unlock(&this->vip_readtry);
 
-    cout<<"Debug: second lock "<<endl; //todo:debug
+//    cout<<"Debug: second lock "<<endl; //todo:debug
 
     curr_VIP_status = this->isVIP;
 
@@ -186,7 +186,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
     //sign : true = plus , false = minus, commission_rate=0 unless called upon by bank
     int curr_balance = 0;
     int commission = this->balance*commission_rate/100;
-    cout<<"Debug: first lock "<<curr_balance<<" amount: "<<amount<<" commission: "<<commission_rate<<endl; //todo:debug
+//    cout<<"Debug: first lock "<<curr_balance<<" amount: "<<amount<<" commission: "<<commission_rate<<endl; //todo:debug
     // concurrency between the snapshot printing and editing the balances
     pthread_mutex_lock(&writing_mut);
     snapshot_writing_counter++;
@@ -195,7 +195,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
     pthread_mutex_unlock(&writing_mut);
 
 
-    cout<<"Debug: second lock "<<curr_balance<<endl; //todo:debug
+//    cout<<"Debug: second lock "<<curr_balance<<endl; //todo:debug
     // concurrency between reading-writing to balance priority to writing
     pthread_mutex_lock(&balance_write);
     balance_writecount++;
@@ -203,10 +203,10 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
         pthread_mutex_lock(&balance_readtry);
     pthread_mutex_unlock(&balance_write);
 
-    cout<<"Debug: third lock "<<curr_balance<<endl; //todo:debug
+//    cout<<"Debug: third lock "<<curr_balance<<endl; //todo:debug
     pthread_mutex_lock(&balance_resource);
 
-    cout<<"Debug: inside lock "<<curr_balance<<endl; //todo:debug
+//    cout<<"Debug: inside lock "<<curr_balance<<endl; //todo:debug
     if(!sign){  //decrease
         if ((this->balance - amount - commission) < 0){ //if turn into to negative
             curr_balance = -1;
@@ -220,7 +220,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
     }
 
     pthread_mutex_unlock(&balance_resource);
-    cout<<"Debug: third unlock "<<curr_balance<<endl; //todo:debug
+//    cout<<"Debug: third unlock "<<curr_balance<<endl; //todo:debug
 
     // concurrency between reading-writing to balance priority to writing
     pthread_mutex_lock(&balance_write);
@@ -228,7 +228,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
     if(balance_writecount == 0)
         pthread_mutex_unlock(&balance_readtry);
     pthread_mutex_unlock(&balance_write);
-    cout<<"Debug: second unlock "<<curr_balance<<endl; //todo:debug
+//    cout<<"Debug: second unlock "<<curr_balance<<endl; //todo:debug
 
     if(commission_rate>0 && curr_balance != -1) { //log commission charging
         pthread_mutex_lock(&log_write_mut);
@@ -243,7 +243,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
     if(snapshot_writing_counter == 0)
         pthread_mutex_unlock(&snapshot_mut);
     pthread_mutex_unlock(&writing_mut);
-    cout<<"Debug: first unlock "<<curr_balance<<endl; //todo:debug
+//    cout<<"Debug: first unlock "<<curr_balance<<endl; //todo:debug
 
     return curr_balance;
 }

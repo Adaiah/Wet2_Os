@@ -14,8 +14,8 @@ void *printStatus(void* args){
     unsigned int bank_sum =0;
     while(!finished_all_actions){
         pthread_mutex_lock(&snapshot_mut);
-//        printf("\033[2J");
-//        printf("\033[1;1H");
+        printf("\033[2J");
+        printf("\033[1;1H");
         cout << "Current Bank Status" << endl;
         //todo: check if the map is ascending or descending
         for( it = bank_accounts.begin(); it != bank_accounts.end(); it++){
@@ -26,6 +26,18 @@ void *printStatus(void* args){
         pthread_mutex_unlock(&snapshot_mut);
         usleep(500000); //sleep for half a second
     }
+    //final snapshot. there are no more ATM but commission can be still on
+    pthread_mutex_lock(&snapshot_mut);
+    printf("\033[2J");
+    printf("\033[1;1H");
+    cout << "Current Bank Status" << endl;
+    //todo: check if the map is ascending or descending
+    for( it = bank_accounts.begin(); it != bank_accounts.end(); it++){
+        it->second.printAccount();
+        bank_sum += it->second.getCommissionTaken();
+    }
+    cout << "The Bank has "<< bank_sum << " $"<<endl;
+    pthread_mutex_unlock(&snapshot_mut);
     pthread_exit(NULL);
 }
 //********************************************
@@ -40,11 +52,9 @@ void *getCommissions (void* args){
     int temp;
     while(!finished_all_actions) {
         commission_rate = rand() % 3 + 2; //TODO: MAKE SURE THIS IS THE RIGHT DEFINITION
-        cout << "Debug: Where I'm? "<<commission_rate << endl; //todo: debug
         for (it = bank_accounts.begin(); it != bank_accounts.end(); it++) {
             if ((it->second.getAccVIP()) == false) {   //account not VIP
                 temp = it->second.setBalance(false, 0, commission_rate);
-                cout << "Debug: Here I'm" <<temp<< endl; //todo: debug
             }
         }
         sleep(3);

@@ -35,10 +35,10 @@ void *ATMAction(void* args){
     //inputFile.open(atm_args->input_file);
     while(getline(inputFile, curr_line)) {
         stringstream action_arg;
-        cout<<"debug: "<<curr_line<<endl ; //todo:debug
+//        cout<<"debug: "<<curr_line<<endl ; //todo:debug
         action_arg.str(curr_line);
         action_arg >> action >> accountId >> password;
-        cout<<"Debug: "<<action<<endl; //todo:debug
+//        cout<<"Debug: "<<action<<endl; //todo:debug
         if(action == 'O'){
             action_arg >> amount;
             openAccount(ATM_id, accountId,password,amount);
@@ -87,7 +87,7 @@ void *ATMAction(void* args){
         atmIO[i].ATM_ID = i+1; //todo make sure this is ok
          if(rc = pthread_create(&atms_t[i], NULL, ATMAction, &atmIO[i])){
              cout << "error: pthread_create, rc: "<< rc<<endl;
-             return NULL; //todo: check what to return
+             pthread_exit(NULL);
          }
     }
     for (i=0 ; i < tot_num_of_atm ; ++i){
@@ -109,7 +109,7 @@ void *ATMAction(void* args){
 // Returns: N/A
 //**************************************************************************************
  void openAccount(int AtmID, int accountID, int password, int initial_amount){
-    cout<<"Debugd: openAccout"<<endl; //todo:debug
+//    cout<<"Debugd: openAccout"<<endl; //todo:debug
      sleep(1);
      if (isAccountExist(accountID)) { //account exists
         pthread_mutex_lock(&log_write_mut);
@@ -134,7 +134,7 @@ void *ATMAction(void* args){
 // Returns: N/A
 //**************************************************************************************
 void Deposit(int AtmID, int accountId, int password, int amount){
-    cout<<"Debugd: Deposit"<<endl; //todo:debug
+//    cout<<"Debugd: Deposit"<<endl; //todo:debug
     sleep(1);
     if (!isAccountExist(accountId)) {
         pthread_mutex_lock(&log_write_mut);
@@ -167,7 +167,7 @@ void Deposit(int AtmID, int accountId, int password, int amount){
 // Returns: N/A
 //**************************************************************************************
 void checkAmount(int AtmID, int accountId, int password) {
-    cout<<"Debugd: checkAmount"<<endl; //todo:debug
+//    cout<<"Debugd: checkAmount"<<endl; //todo:debug
     sleep(1);
     if (!isAccountExist(accountId)) {
         pthread_mutex_lock(&log_write_mut);
@@ -212,7 +212,7 @@ bool isAccountExist(int accountID){
 }
 
 void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
-    cout<<"Debugd: makeAccountVIP"<<endl; //todo:debug
+//    cout<<"Debugd: makeAccountVIP"<<endl; //todo:debug
 //TODO: changed to write to file, please add locks to the rest of your logging
     sleep(1);
     if (!isAccountExist(accountID)) {
@@ -240,7 +240,7 @@ void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
 // Returns:
 //**************************************************************************************
 void withdraw(int AtmID, int accountID, unsigned short int password, unsigned int amount){
-    cout<<"Debugd: Withdraw"<<endl; //todo:debug
+//    cout<<"Debugd: Withdraw"<<endl; //todo:debug
     sleep(1);
     if (!isAccountExist(accountID)) {
         pthread_mutex_lock(&log_write_mut);
