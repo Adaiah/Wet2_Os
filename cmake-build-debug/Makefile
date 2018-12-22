@@ -178,33 +178,6 @@ Account.cpp.s:
 	$(MAKE) -f CMakeFiles\wet2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\wet2.dir\Account.cpp.s
 .PHONY : Account.cpp.s
 
-Bank.obj: Bank.cpp.obj
-
-.PHONY : Bank.obj
-
-# target to build an object file
-Bank.cpp.obj:
-	$(MAKE) -f CMakeFiles\wet2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\wet2.dir\Bank.cpp.obj
-.PHONY : Bank.cpp.obj
-
-Bank.i: Bank.cpp.i
-
-.PHONY : Bank.i
-
-# target to preprocess a source file
-Bank.cpp.i:
-	$(MAKE) -f CMakeFiles\wet2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\wet2.dir\Bank.cpp.i
-.PHONY : Bank.cpp.i
-
-Bank.s: Bank.cpp.s
-
-.PHONY : Bank.s
-
-# target to generate assembly for a file
-Bank.cpp.s:
-	$(MAKE) -f CMakeFiles\wet2.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\wet2.dir\Bank.cpp.s
-.PHONY : Bank.cpp.s
-
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -247,9 +220,6 @@ help:
 	@echo ... Account.obj
 	@echo ... Account.i
 	@echo ... Account.s
-	@echo ... Bank.obj
-	@echo ... Bank.i
-	@echo ... Bank.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

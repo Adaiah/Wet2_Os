@@ -84,6 +84,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/ATM.cpp">
+			<Option target="wet2"/>
+		</Unit>
 		<Unit filename="D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/ATM.h">
 			<Option target="wet2"/>
 		</Unit>
@@ -93,13 +96,7 @@
 		<Unit filename="D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/Account.h">
 			<Option target="wet2"/>
 		</Unit>
-		<Unit filename="D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/Bank.cpp">
-			<Option target="wet2"/>
-		</Unit>
 		<Unit filename="D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/Bank.h">
-			<Option target="wet2"/>
-		</Unit>
-		<Unit filename="D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/cmake-build-debug/ATM.cpp">
 			<Option target="wet2"/>
 		</Unit>
 		<Unit filename="D:/Google Drive/Studies-EE/semester 7/operatingSystem/wet2/main.cpp">

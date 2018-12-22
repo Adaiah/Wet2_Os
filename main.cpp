@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "ATM.h"
 #include "Bank.h"
 #include "Account.h"
@@ -14,15 +15,18 @@ using namespace std;
 
 //global map
 map<int, Account> bank_accounts;
+unsigned int bank_sum ;//todo: made this variable global for commission purposes
+pthread_mutex_t log_write_mut;
+ofstream logfile;
 
 int main(int argc, char* argv[]) {
 
     pthread_t bank_thread;
     pthread_t atm_thread;
-
+    logfile.open("log.txt");
     vector<string>input_files( argv+2, argv+argc);
     Atm_args* atm_args = new Atm_args ;
-    atm_args -> log_file_name = "log.txt";
+    atm_args -> log_file=&logfile;
     atm_args -> num_of_atm = atoi(argv[NUM_OF_ATM]);
     atm_args -> input_files = input_files;
 
@@ -31,6 +35,7 @@ int main(int argc, char* argv[]) {
 
     pthread_join(bank_thread, NULL);
     pthread_join(atm_thread, NULL);
+    //logfile.close(); todo: ??
 
     delete atm_args;
     return 0;

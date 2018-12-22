@@ -10,13 +10,17 @@
 #include <streamio>
 #include <unistd.h>
 #include <map>
+#include <iostream>
+#include <fstream>
+#include <pthread.h>
+
 
 using namespace std;
 
 extern map<int, Account> bank_accounts;
+extern ofstream logfile;
 //
 
 void *miniMainBank(void* args);
-
 
 #endif //WET2_BANK_H
