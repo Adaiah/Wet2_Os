@@ -28,12 +28,11 @@ int main(int argc, char* argv[]) {
     logfile.open("log.txt");
     vector<string>input_files( argv+2, argv+argc);
     Atm_args* atm_args = new Atm_args ;
-    atm_args -> log_file = &logfile;
-    atm_args -> num_of_atm = atoi(argv[NUM_OF_ATM]);
+    atm_args -> tot_num_of_atm = atoi(argv[NUM_OF_ATM]);
     atm_args -> input_files = input_files;
 
-    thread_create(&bank_thread, NULL, miniMainBank, NULL);
-    thread_create(&atm_thread, NULL, miniMainATM, (void *)atm_args);
+    pthread_create(&bank_thread, NULL, miniMainBank, NULL);
+    pthread_create(&atm_thread, NULL, miniMainATM, (void *)atm_args);
 
     pthread_join(bank_thread, NULL);
     pthread_join(atm_thread, NULL);
