@@ -94,22 +94,22 @@ int Account:: getAccountId(){
 // Returns:
 //**************************************************************************************
 bool Account::getAccVIP(){
-    bool curr_VIP_status = 0 ;
-    pthread_mutex_lock(&balance_readtry);
-    pthread_mutex_lock(&balance_read);
-    balance_readcount++;
-    if (balance_readcount == 1)
-        pthread_mutex_lock(&balance_resource);
-    pthread_mutex_unlock(&balance_read);
-    pthread_mutex_unlock(&balance_readtry);
+    bool curr_VIP_status = false ;
+    pthread_mutex_lock(&vip_readtry);
+    pthread_mutex_lock(&vip_read);
+    vip_readcount++;
+    if (vip_readcount == 1)
+        pthread_mutex_lock(&vip_resource);
+    pthread_mutex_unlock(&vip_read);
+    pthread_mutex_unlock(&vip_readtry);
 
     curr_VIP_status = this->isVIP;
 
-    pthread_mutex_lock(&balance_read);
-    balance_readcount--;
-    if (balance_readcount == 0)
-        pthread_mutex_unlock(&balance_resource);
-    pthread_mutex_unlock(&balance_read);
+    pthread_mutex_lock(&vip_read);
+    vip_readcount--;
+    if (vip_readcount == 0)
+        pthread_mutex_unlock(&vip_resource);
+    pthread_mutex_unlock(&vip_read);
 
     return curr_VIP_status;
 }
@@ -136,23 +136,23 @@ bool Account::checkPassword(unsigned short int password) {
 //**************************************************************************************
 void Account::setAccVIP(){
 
-    pthread_mutex_lock(&balance_write);
-    balance_writecount++;
-    if (balance_writecount == 1)
-        pthread_mutex_lock(&balance_readtry);
-    pthread_mutex_unlock(&balance_write);
+    pthread_mutex_lock(&vip_write);
+    vip_writecount++;
+    if (vip_writecount == 1)
+        pthread_mutex_lock(&vip_readtry);
+    pthread_mutex_unlock(&vip_write);
 
-    pthread_mutex_lock(&balance_resource);
+    pthread_mutex_lock(&vip_resource);
 
     this->isVIP=true;
 
-    pthread_mutex_unlock(&balance_resource);
+    pthread_mutex_unlock(&vip_resource);
 
-    pthread_mutex_lock(&balance_write);
-    balance_writecount--;
-    if(balance_writecount == 0)
-        pthread_mutex_unlock(&balance_readtry);
-    pthread_mutex_unlock(&balance_write);
+    pthread_mutex_lock(&vip_write);
+    vip_writecount--;
+    if(vip_writecount == 0)
+        pthread_mutex_unlock(&vip_readtry);
+    pthread_mutex_unlock(&vip_write);
 }
 
 //********************************************

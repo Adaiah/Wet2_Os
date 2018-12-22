@@ -106,7 +106,7 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
 // Returns: N/A
 //**************************************************************************************
  void openAccount(int AtmID, int accountID, int password, int initial_amount){
-
+     sleep(1);
      if (isAccountExist(accountID)) { //account exists
         pthread_mutex_lock(log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account with the same id exists" << endl;
@@ -130,6 +130,7 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
 // Returns: N/A
 //**************************************************************************************
 void Deposit(int AtmID, int accountId, int password, int amount){
+    sleep(1);
     if (!isAccountExist(accountId)) {
         pthread_mutex_lock(log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountID
@@ -159,6 +160,7 @@ void Deposit(int AtmID, int accountId, int password, int amount){
 // Returns: N/A
 //**************************************************************************************
 void checkAmount(int AtmID, int accountId, int password) {
+    sleep(1);
     if (!isAccountExist(accountId)) {
         pthread_mutex_lock(log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountId
@@ -201,6 +203,7 @@ bool isAccountExist(int accountID){
 
 void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
 //TODO: changed to write to file, please add locks to the rest of your logging
+    sleep(1);
     if (!isAccountExist(accountID)) {
         pthread_mutex_lock(log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountID
@@ -224,6 +227,7 @@ void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
 // Returns:
 //**************************************************************************************
 void withdraw(int AtmID, int accountID, unsigned short int password, unsigned int amount){
+    sleep(1);
     if (!isAccountExist(accountID)) {
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountID
              << " does not exist" << endl; //todo: change to write in file
@@ -254,6 +258,7 @@ void withdraw(int AtmID, int accountID, unsigned short int password, unsigned in
 // Returns:
 //**************************************************************************************
 void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId, unsigned int amount){
+    sleep(1);
     if (!isAccountExist(fromAccID)) {
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << fromAccID
              << " does not exist" << endl; //todo: change to write in file

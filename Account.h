@@ -28,6 +28,10 @@ private:
     bool  isVIP;
     pthread_mutex_t vip_read;
     pthread_mutex_t vip_write;
+    pthread_mutex_t vip_readtry;
+    pthread_mutex_t vip_resource;
+    int vip_readcount, vip_writecount;
+
 
 public:
     //constructor
