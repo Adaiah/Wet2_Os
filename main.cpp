@@ -15,7 +15,6 @@ using namespace std;
 
 //global map
 map<int, Account> bank_accounts;
-unsigned int bank_sum ;//todo: made this variable global for commission purposes
 pthread_mutex_t log_write_mut;
 ofstream logfile;
 
