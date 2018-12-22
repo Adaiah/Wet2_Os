@@ -31,7 +31,7 @@ private:
     pthread_mutex_t balance_readtry;
     pthread_mutex_t balance_resource;
     int balance_readcount, balance_writecount;
-    bool  isVIP;
+    bool isVIP;
     pthread_mutex_t vip_read;
     pthread_mutex_t vip_write;
     pthread_mutex_t vip_readtry;
@@ -41,7 +41,7 @@ private:
 
 public:
     //constructor
-    Account(int accountId , unsigned short int password , int balance);
+    Account(int accountId, unsigned short int password, int balance);
 
     //destructor
     ~Account();
@@ -57,14 +57,15 @@ public:
 
     bool checkPassword(unsigned short int password);
 
-    int getCommissionTaken(){
+    int getCommissionTaken() {
 
-    //Methods to change  the data
-    void setAccVIP();
+        //Methods to change  the data
+        void setAccVIP();
 //todo: added commission rate to function args
-    int setBalance( bool sign, unsigned int amount, int commission_rate); //sign true = plus, false = minus
+        int setBalance(bool sign, unsigned int amount, int commission_rate); //sign true = plus, false = minus
 
-    unsigned int printAccount();
+        unsigned int printAccount();
+    }
 };
 
 #endif //WET2_ACCOUNT_H

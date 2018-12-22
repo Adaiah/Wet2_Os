@@ -37,7 +37,6 @@ typedef struct{
 }atm_input_output;
 
 
-
 void* miniMainATM(void*);
 
 #endif //WET2_ATM_H
