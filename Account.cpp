@@ -12,7 +12,7 @@
 //             balance - amount to enter to the new account
 // Returns: N/A
 //**************************************************************************************
-Account::Account(int accountId , unsigned short int password , int balance):accountId(accountId),
+Account::Account(int accountId , unsigned short int password  , int balance):accountId(accountId),
         password(password), balance(balance), isVIP(false), balance_readcount(0), balance_writecount(0){
     pthread_mutex_init(&balance_read, NULL);
     pthread_mutex_init(&balance_write, NULL);

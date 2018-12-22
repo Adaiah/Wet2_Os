@@ -41,7 +41,7 @@ private:
 
 public:
     //constructor
-    Account(int accountId, unsigned short int password, int balance);
+    Account(int accountId=0, unsigned short int password=0, int balance=0);
 
     //destructor
     ~Account();
@@ -57,7 +57,7 @@ public:
 
     bool checkPassword(unsigned short int password);
 
-    int getCommissionTaken() {
+    int getCommissionTaken();
 
         //Methods to change  the data
         void setAccVIP();
@@ -65,7 +65,6 @@ public:
         int setBalance(bool sign, unsigned int amount, int commission_rate); //sign true = plus, false = minus
 
         unsigned int printAccount();
-    }
 };
 
 #endif //WET2_ACCOUNT_H

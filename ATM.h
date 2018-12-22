@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <string>
 #include <sstream>
+#include <unistd.h>
 
 #define PLUS true
 #define MINUS false
