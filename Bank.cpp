@@ -63,7 +63,6 @@ void *miniMainBank(void* args) {
 
     pthread_join(printing_thread, NULL);
     pthread_join(commission_thread, NULL);
-
     return NULL; //todo : check what to return
 }
 

@@ -38,12 +38,12 @@ Account::~Account(){
     pthread_mutex_unlock(&vip_write);
 
 
-    pthread_mutex_destory(&balance_read);
-    pthread_mutex_destory(&balance_write);
-    pthread_mutex_destory(&balance_resource);
-    pthread_mutex_destory(&balance_readtry);
-    pthread_mutex_destory(&vip_read);
-    pthread_mutex_destory(&vip_write);
+    pthread_mutex_destroy(&balance_read);
+    pthread_mutex_destroy(&balance_write);
+    pthread_mutex_destroy(&balance_resource);
+    pthread_mutex_destroy(&balance_readtry);
+    pthread_mutex_destroy(&vip_read);
+    pthread_mutex_destroy(&vip_write);
 }
 
 //Methods to access data individually
@@ -65,7 +65,7 @@ unsigned int Account::getBalance(){
     pthread_mutex_unlock(&balance_read);
     pthread_mutex_unlock(&balance_readtry);
 
-    curr_balance = this.balance;
+    curr_balance = this->balance;
 
     pthread_mutex_lock(&balance_read);
     balance_readcount--;
@@ -163,7 +163,7 @@ void Account::setAccVIP(){
 // Returns: void
 //**************************************************************************************
 void Account::addCommission(int commission){
-    this.commision_taken += commission;
+    this->commission_taken += commission;
 }
 
 //********************************************
@@ -194,15 +194,15 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
 
     pthread_mutex_lock(&balance_resource);
     if(!sign){  //decrease
-        if ((this.balance - amount - commission) < 0){ //if turn into to negative
+        if ((this->balance - amount - commission) < 0){ //if turn into to negative
             curr_balance = -1;
         } else{
-            this.balance = this.balance - amount - commission;
-            curr_balance = this.balacne;
+            this->balance = this->balance - amount - commission;
+            curr_balance = this->balance;
         }
     } else{  //increase
-        this.balance = this.balance + amount;
-        curr_balance = this.balance;
+        this->balance = this->balance + amount;
+        curr_balance = this->balance;
     }
 
     pthread_mutex_unlock(&balance_resource);
@@ -215,10 +215,10 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
     pthread_mutex_unlock(&balance_write);
 
     if(commission_rate>0 && curr_balance != -1) { //log commission charging
-        pthread_mutex_lock(log_write_mut);
+        pthread_mutex_lock(&log_write_mut);
         logfile<<"Bank: commision of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
-        pthread_mutex_unlock(log_write_mut);
-        this.addCommission(commission);
+        pthread_mutex_unlock(&log_write_mut);
+        this->addCommission(commission);
 
     }
 
@@ -239,9 +239,9 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
 // Returns:
 //**************************************************************************************
 unsigned int Account::printAccount(){
-    unsigned int curr_balance = this.getBalance();
-    cout <<"Account "<< this.getAccountId() <<": Balance - " << curr_balance
-        << " $ , Account Password - " << this.getPassowrd() << endl;
+    unsigned int curr_balance = this->getBalance();
+    cout <<"Account "<< this->getAccountId() <<": Balance - " << curr_balance
+        << " $ , Account Password - " << this->password << endl;
     return curr_balance;
 }
 
@@ -255,7 +255,7 @@ unsigned int Account::printAccount(){
 //**************************************************************************************
 int Account::getCommissionTaken(){
     int commission = 0;
-    commission = this.commision_taken;
-    this.commision_taken = 0;
+    commission = this->commission_taken;
+    this->commission_taken = 0;
     return commission;
 }
