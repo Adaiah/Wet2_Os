@@ -1,0 +1,14 @@
+TODOs:
+* threaded Commission
+
+Check which been done:
+* the short_atm test pass completly   V
+* short atm in at least 4 atms (same short code ) V
+    *problem fixed: insert new account (same account) in the same time in different. - insert_lock
+
+
+Things to check:
+* Transfer function
+* withdraw more than available
+* Transfer from and to the same account
+* function with not the right accountID

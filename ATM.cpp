@@ -111,15 +111,18 @@ void *ATMAction(void* args){
  void openAccount(int AtmID, int accountID, int password, int initial_amount){
 //    cout<<"Debugd: openAccout"<<endl; //todo:debug
      sleep(1);
+     pthread_mutex_lock(&insert_new_account_mut);
      if (isAccountExist(accountID)) { //account exists
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account with the same id exists" << endl;
         pthread_mutex_unlock(&log_write_mut);
+        pthread_mutex_unlock(&insert_new_account_mut);
         return;
     }
     else { // create and enter the new account into the bank_accounts map for future use
         Account new_Account(accountID , password, initial_amount);
         bank_accounts[accountID]=new_Account;
+        pthread_mutex_unlock(&insert_new_account_mut);
         return;
     }
  }
