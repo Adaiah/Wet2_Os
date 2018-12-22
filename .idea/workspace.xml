@@ -61,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Bank.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state>
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
         </entry>
@@ -70,8 +70,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Bank.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="614">
-              <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
+            <state relative-caret-position="155">
+              <caret line="36" column="74" selection-start-line="36" selection-start-column="74" selection-end-line="36" selection-end-column="74" />
             </state>
           </provider>
         </entry>
@@ -88,7 +88,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ATM.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2179">
+            <state relative-caret-position="-167">
               <caret line="172" column="5" lean-forward="true" selection-start-line="172" selection-start-column="5" selection-end-line="172" selection-end-column="5" />
             </state>
           </provider>
@@ -106,8 +106,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Account.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-374">
-              <caret line="15" column="20" lean-forward="true" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+            <state relative-caret-position="119">
+              <caret line="96" column="22" lean-forward="true" selection-start-line="96" selection-start-column="22" selection-end-line="96" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -134,11 +134,11 @@
         <option value="$PROJECT_DIR$/cmake-build-debug/Account.cpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/Bank.h" />
-        <option value="$PROJECT_DIR$/Bank.cpp" />
         <option value="$PROJECT_DIR$/ATM.h" />
         <option value="$PROJECT_DIR$/Account.h" />
-        <option value="$PROJECT_DIR$/Account.cpp" />
         <option value="$PROJECT_DIR$/ATM.cpp" />
+        <option value="$PROJECT_DIR$/Bank.cpp" />
+        <option value="$PROJECT_DIR$/Account.cpp" />
       </list>
     </option>
   </component>
@@ -214,12 +214,12 @@
       <workItem from="1544879438767" duration="1986000" />
       <workItem from="1545139759815" duration="8488000" />
       <workItem from="1545384835571" duration="11294000" />
-      <workItem from="1545400589227" duration="8495000" />
+      <workItem from="1545400589227" duration="11002000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49497000" />
+    <option name="totallyTimeSpent" value="52004000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -234,11 +234,11 @@
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49838188" visible="true" weight="0.13603239" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49838188" visible="true" weight="0.13603239" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50161815" side_tool="true" weight="0.2457356" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.28063944" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.28063944" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -342,20 +342,6 @@
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Bank.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Bank.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="614">
-          <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ATM.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -377,17 +363,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Bank.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Bank.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="36" column="74" selection-start-line="36" selection-start-column="74" selection-end-line="36" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ATM.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2179">
+        <state relative-caret-position="-167">
           <caret line="172" column="5" lean-forward="true" selection-start-line="172" selection-start-column="5" selection-end-line="172" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Account.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-374">
-          <caret line="15" column="20" lean-forward="true" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+        <state relative-caret-position="119">
+          <caret line="96" column="22" lean-forward="true" selection-start-line="96" selection-start-column="22" selection-end-line="96" selection-end-column="22" />
         </state>
       </provider>
     </entry>

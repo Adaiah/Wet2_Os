@@ -94,7 +94,24 @@ int Account:: getAccountId(){
 // Returns:
 //**************************************************************************************
 bool Account::getAccVIP(){
+    bool curr_VIP_status = 0 ;
+    pthread_mutex_lock(&balance_readtry);
+    pthread_mutex_lock(&balance_read);
+    balance_readcount++;
+    if (balance_readcount == 1)
+        pthread_mutex_lock(&balance_resource);
+    pthread_mutex_unlock(&balance_read);
+    pthread_mutex_unlock(&balance_readtry);
 
+    curr_VIP_status = this->isVIP;
+
+    pthread_mutex_lock(&balance_read);
+    balance_readcount--;
+    if (balance_readcount == 0)
+        pthread_mutex_unlock(&balance_resource);
+    pthread_mutex_unlock(&balance_read);
+
+    return curr_VIP_status;
 }
 
 
@@ -117,7 +134,26 @@ bool Account::checkPassword(unsigned short int password) {
 // Parameters:
 // Returns:
 //**************************************************************************************
-void Account::setAccVIP();
+void Account::setAccVIP(){
+
+    pthread_mutex_lock(&balance_write);
+    balance_writecount++;
+    if (balance_writecount == 1)
+        pthread_mutex_lock(&balance_readtry);
+    pthread_mutex_unlock(&balance_write);
+
+    pthread_mutex_lock(&balance_resource);
+
+    this->isVIP=true;
+
+    pthread_mutex_unlock(&balance_resource);
+
+    pthread_mutex_lock(&balance_write);
+    balance_writecount--;
+    if(balance_writecount == 0)
+        pthread_mutex_unlock(&balance_readtry);
+    pthread_mutex_unlock(&balance_write);
+}
 
 //********************************************
 // function name: printStatus
@@ -143,7 +179,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
         } else{
             this.balance = this.balance - amount - commission;
             bank_sum+=commission;
-            curr_balance = this.balacne;
+            curr_balance = this.balance;
         }
     } else{  //increase
         this.balance = this.balance + amount;
@@ -165,6 +201,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
 
 
     }
+    return curr_balance;
 
 }
 //********************************************
