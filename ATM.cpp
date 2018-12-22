@@ -269,6 +269,8 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
              << " is incorrect" << endl; //todo: change to write in file
         return;
     }
+    if (fromAccID == toAccId) //if self transfer - do nothing
+        return;
     if (!isAccountExist(toAccId)) {
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << toAccId
              << " does not exist" << endl;  //todo change to write in file

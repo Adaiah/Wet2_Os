@@ -11,8 +11,9 @@
 //**************************************************************************************
 void *printStatus(void* args){
     map<int, Account>::iterator it;
+    unsigned int bank_sum =0;
     while(1){
-        unsigned int bank_sum =0;
+        pthread_mutex_lock(&snapshot_mut);
         printf("\033[2j");
         printf("\033[1;1H");
         cout << "Current Bank Status" << endl;
@@ -22,6 +23,7 @@ void *printStatus(void* args){
             bank_sum += it->getCommissionTaken();
         }
         cout << "The Bank has "<< bank_sum << " $"<<endl;
+        pthread_mutex_unlock(&snapshot_mut);
         usleep(500000); //sleep for half a second
     }
 }

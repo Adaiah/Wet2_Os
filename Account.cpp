@@ -21,7 +21,6 @@ Account::Account(int accountId , unsigned short int password , int balance):acco
     pthread_mutex_init(&balance_resource, NULL);
     pthread_mutex_init(&vip_read, NULL);
     pthread_mutex_init(&vip_write, NULL);
-    pthread_mutex_init(&commision_mut, NULL);
 
 }
 
@@ -38,7 +37,6 @@ Account::~Account(){
     pthread_mutex_unlock(&balance_readtry);
     pthread_mutex_unlock(&vip_read);
     pthread_mutex_unlock(&vip_write);
-    pthread_mutex_unlock(&commision_mut);
 
 
     pthread_mutex_destory(&balance_read);
@@ -47,7 +45,6 @@ Account::~Account(){
     pthread_mutex_destory(&balance_readtry);
     pthread_mutex_destory(&vip_read);
     pthread_mutex_destory(&vip_write);
-    pthread_mutex_destory(&commision_mut);
 }
 
 //Methods to access data individually
@@ -167,9 +164,7 @@ void Account::setAccVIP(){
 // Returns: void
 //**************************************************************************************
 void Account::addCommission(int commission){
-    pthread_mutex_lock(&this.commision_mut);
     this.commision_taken += commission;
-    pthread_mutex_unlock(&this.commision_mut);
 }
 
 //********************************************
@@ -183,6 +178,15 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
     int curr_balance = 0;
     int commission = this->balance*commission_rate;
 
+    // concurrency between the snapshot printing and editing the balances
+    pthread_mutex_lock(&writing_mut);
+    snapshot_writing_counter++;
+    if(snapshot_writing_counter == 1)
+        pthread_mutex_lock(&snapshot_mut);
+    pthread_mutex_unlock(&writing_mut);
+
+
+    // concurrency between reading-writing to balance priority to writing
     pthread_mutex_lock(&balance_write);
     balance_writecount++;
     if (balance_writecount == 1)
@@ -204,19 +208,28 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
 
     pthread_mutex_unlock(&balance_resource);
 
+    // concurrency between reading-writing to balance priority to writing
     pthread_mutex_lock(&balance_write);
     balance_writecount--;
     if(balance_writecount == 0)
         pthread_mutex_unlock(&balance_readtry);
     pthread_mutex_unlock(&balance_write);
 
-    if(commission_rate>0) { //log commission charging
+    if(commission_rate>0 && curr_balance != -1) { //log commission charging
         pthread_mutex_lock(log_write_mut);
         logfile<<"Bank: commision of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
         pthread_mutex_unlock(log_write_mut);
-        addCommission(commission);
+        this.addCommission(commission);
 
     }
+
+    // concurrency between the snapshot printing and editing the balances
+    pthread_mutex_lock(&writing_mut);
+    snapshot_writing_counter--;
+    if(snapshot_writing_counter == 0)
+        pthread_mutex_unlock(&snapshot_mut);
+    pthread_mutex_unlock(&writing_mut);
+
     return curr_balance;
 
 }
@@ -243,9 +256,7 @@ unsigned int Account::printAccount(){
 //**************************************************************************************
 int Account::getCommissionTaken(){
     int commission = 0;
-    pthread_mutex_lock(&this.commision_mut);
     commission = this.commision_taken;
     this.commision_taken = 0;
-    pthread_mutex_unlock(&this.commision_mut);
     return commission;
 }

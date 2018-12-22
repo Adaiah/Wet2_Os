@@ -11,7 +11,11 @@
 #include <fstream>
 
 extern pthread_mutex_t log_write_mut;
+extern pthread_mutex_t snapshot_mut;
+extern pthread_mutex_t writing_mut;
+extern int snapshot_writing_counter;
 extern ofstream logfile;
+
 
 
 class Account {
@@ -20,7 +24,6 @@ private:
     unsigned short int password;
     unsigned int balance;
     unsigned int commission_taken;
-    pthread_mutex_t commission_mut
     pthread_mutex_t balance_read;
     pthread_mutex_t balance_write;
     pthread_mutex_t balance_readtry;
