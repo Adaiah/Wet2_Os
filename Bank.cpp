@@ -19,8 +19,8 @@ void *printStatus(void* args){
         cout << "Current Bank Status" << endl;
         //todo: check if the map is ascending or descending
         for( it = bank_accounts.begin(); it != bank_accounts.end(); it++){
-            it->printAccount();
-            bank_sum += it->getCommissionTaken();
+            it->second.printAccount();
+            bank_sum += it->second.getCommissionTaken();
         }
         cout << "The Bank has "<< bank_sum << " $"<<endl;
         pthread_mutex_unlock(&snapshot_mut);
@@ -54,7 +54,7 @@ void *getCommissions (void* args){
         commission_rate = rand() % 3 + 2; //TODO: MAKE SURE THIS IS THE RIGHT DEFINITION
         for (it = bank_accounts.begin(); it != bank_accounts.end(); it++) {
             if ((it->second.getAccVIP()) == false) {   //account not VIP
-                temp = it->second.setBalance(false, 0, commission_rate);
+                temp = it->second.setBalance(false, 0, commission_rate, false);//todo: no sleep right?
             }
         }
         sleep(3);
@@ -73,8 +73,8 @@ void *miniMainBank(void* args) {
     pthread_t printing_thread;
     pthread_t commission_thread;
 
-    thread_create(&commission_thread, NULL, commisions, NULL);
-    thread_create(&printing_thread, NULL, printStatus, NULL);
+    pthread_create(&printing_thread, NULL, printStatus, NULL);
+    pthread_create(&commission_thread, NULL, getCommissions, NULL);
 
     pthread_join(printing_thread, NULL);
     pthread_join(commission_thread, NULL);

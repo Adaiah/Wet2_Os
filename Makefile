@@ -9,9 +9,9 @@ Bank: $(OBJS)
 	$(CCLINK) -o Bank $(OBJS) -pthread
 # Creating the object files
 Account.o: Account.cpp Account.h
-ain.o: main.cpp Bank.h ATM.h Account.h
-Bank.o: Bank.cpp Bank.h
-ATM.o: ATM.cpp ATM.h
+main.o: main.cpp Bank.h ATM.h Account.h
+Bank.o: Bank.cpp Bank.h Account.h
+ATM.o: ATM.cpp ATM.h Account.h
 # Cleaning old files before new make
 clean:
 	$(RM) $(TARGET) *.o *~ "#"* core.*

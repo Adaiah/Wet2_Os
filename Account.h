@@ -6,9 +6,9 @@
 #define WET2_ACCOUNT_H
 
 #include <pthread.h>
-//#include <type_traits>
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -49,7 +49,7 @@ public:
     //Methods to access data individually
     int getAccountId();
 
-    unsigned int getBalance();
+    unsigned int getBalance( bool sleep_flag);
 
     bool getAccVIP();
 
@@ -61,8 +61,10 @@ public:
 
         //Methods to change  the data
         void setAccVIP();
+    void addCommission(int commission);
+
 //todo: added commission rate to function args
-        int setBalance(bool sign, unsigned int amount, int commission_rate); //sign true = plus, false = minus
+        int setBalance(bool sign, unsigned int amount, int commission_rate, bool sleep_flag); //sign true = plus, false = minus
 
         unsigned int printAccount();
 };

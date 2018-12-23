@@ -61,7 +61,7 @@ Account::~Account(){
 // Parameters: N/A
 // Returns: N/A
 //**************************************************************************************
-unsigned int Account::getBalance(){
+unsigned int Account::getBalance(bool sleep_flag){
 
     unsigned int curr_balance = 0 ;
     pthread_mutex_lock(&balance_readtry);
@@ -73,6 +73,7 @@ unsigned int Account::getBalance(){
     pthread_mutex_unlock(&balance_readtry);
 
     curr_balance = this->balance;
+    if(sleep_flag) sleep(1);
 
     pthread_mutex_lock(&balance_read);
     balance_readcount--;
@@ -156,6 +157,7 @@ void Account::setAccVIP(){
     pthread_mutex_lock(&vip_resource);
 
     this->isVIP=true;
+    sleep(1);
 
     pthread_mutex_unlock(&vip_resource);
 
@@ -183,7 +185,7 @@ void Account::addCommission(int commission){
 // Parameters: bool sign , unsigned int amount , int commission_rate
 // Returns: int
 //**************************************************************************************
-int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
+int Account::setBalance( bool sign, unsigned int amount, int commission_rate, bool sleep_flag) {
     //sign : true = plus , false = minus, commission_rate=0 unless called upon by bank
     int curr_balance = 0;
     int commission = this->balance*commission_rate/100;
@@ -219,6 +221,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
         this->balance = this->balance + amount;
         curr_balance = this->balance;
     }
+    if(sleep_flag) sleep(1);
 
     pthread_mutex_unlock(&balance_resource);
 //    cout<<"Debug: third unlock "<<curr_balance<<endl; //todo:debug
@@ -255,7 +258,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate) {
 // Returns:
 //**************************************************************************************
 unsigned int Account::printAccount(){
-    unsigned int curr_balance = this->getBalance();
+    unsigned int curr_balance = this->getBalance(false);
     cout <<"Account "<< this->getAccountId() <<": Balance - " << curr_balance
         << " $ , Account Password - " << this->password << endl;
     return curr_balance;
