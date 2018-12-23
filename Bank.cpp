@@ -40,6 +40,12 @@ void *printStatus(void* args){
     pthread_mutex_unlock(&snapshot_mut);
     pthread_exit(NULL);
 }
+
+void *commissioner(void *args) {
+    Comm_args *comm_args= (Comm_args*) args;
+    int curr_commission= comm_args->commission_rate;
+    comm_args->curr_Account->setBalance(false,0,curr_commission,false);
+}
 //********************************************
 // function name: commissions
 // Description: the function that runs on the commission thread. takes commission every 3 sec
@@ -49,14 +55,28 @@ void *printStatus(void* args){
 void *getCommissions (void* args){
     map<int, Account>::iterator it;
     int commission_rate;
-    int temp;
+    int temp,rc,i ;
+    int numberOfAccounts=0;
     while(!finished_all_actions) {
+        numberOfAccounts=bank_accounts.size();
+        pthread_t AccountCommission[numberOfAccounts];
         commission_rate = rand() % 3 + 2; //TODO: MAKE SURE THIS IS THE RIGHT DEFINITION
-        for (it = bank_accounts.begin(); it != bank_accounts.end(); it++) {
-            if ((it->second.getAccVIP()) == false) {   //account not VIP
-                temp = it->second.setBalance(false, 0, commission_rate, false);//todo: no sleep right?
+        if(numberOfAccounts>0){
+            for(i=0,it = bank_accounts.begin(); it != bank_accounts.end(), i<numberOfAccounts; it++,i++) {
+                if ((it->second.getAccVIP()) == false) {   //account not VIP
+                    Comm_args* comm_args= new Comm_args;
+                    comm_args->commission_rate=commission_rate;
+                    comm_args->curr_Account=&it->second;
+                    if (rc = pthread_create(&AccountCommission[i], NULL, commissioner, (void *)comm_args)) {
+                        cout << "error: pthread_create, rc: " << rc << endl;
+                        pthread_exit(NULL);
+                    }
+                }
             }
-        }
+            for (i=0 ; i < numberOfAccounts; ++i){
+                   pthread_join(AccountCommission[i], NULL);
+               }
+            }
         sleep(3);
     }
     pthread_exit(NULL);
