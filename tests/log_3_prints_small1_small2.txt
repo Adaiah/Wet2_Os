@@ -1,0 +1,22 @@
+Error 1: Your transaction failed - account id 1 does not exist
+2: New account id is 1 with password 1 and initial balance 100
+3: Account 1 new balance is 95 after 5 $ was withdrew
+Bank: commissions of 3 % were charged, the bank gained 3 $ from account 1
+1: Account 1 balance is 92
+3: Account 1 new balance is 87 after 5 $ was withdrew
+1: Account 1 balance is 87
+2: New account id is 2 with password 2 and initial balance 200
+3: Account 1 new balance is 82 after 5 $ was withdrew
+1: Account 1 balance is 82
+3: Account 1 new balance is 77 after 5 $ was withdrew
+1: Account 1 balance is 77
+2: Account 2 new balance is 195 after 5 $ was withdrew
+1: Account 1 balance is 77
+3: Account 2 new balance is 190 after 5 $ was withdrew
+2: Transfer 180 from account 2 to account 1 new account balance is 10 new target account balance is 257
+1: Account 1 balance is 257
+Error 2: Your transaction failed - account id 2 balance is lower than 200
+1: Account 1 balance is 257
+Error 2: Your transaction failed - account id 1 balance is lower than 275
+1: Account 1 balance is 257
+2: Account 1 new balance is 252 after 5 $ was withdrew

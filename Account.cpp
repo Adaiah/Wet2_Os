@@ -116,7 +116,7 @@ bool Account::getAccVIP(){
 //    cout<<"Debug: second lock "<<endl; //todo:debug
 
     curr_VIP_status = this->isVIP;
-
+   // logfile<<"is vip"<<curr_VIP_status<<endl;//todo debug
     pthread_mutex_lock(&this->vip_read);
     vip_readcount--;
     if (vip_readcount == 0)
@@ -236,7 +236,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate, bo
 
     if(commission_rate>0 && curr_balance != -1) { //log commission charging
         pthread_mutex_lock(&log_write_mut);
-        logfile<<"Bank: commision of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
+        logfile<<"Bank: commission of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
         pthread_mutex_unlock(&log_write_mut);
         this->addCommission(commission);
     }

@@ -1,0 +1,12 @@
+1: New account id is 1 with password 1 and initial balance 1
+2: New account id is 10 with password 10 and initial balance 1
+1: New account id is 2 with password 2 and initial balance 1
+2: New account id is 11 with password 11 and initial balance 1
+1: New account id is 3 with password 3 and initial balance 1
+2: New account id is 12 with password 12 and initial balance 1
+1: New account id is 4 with password 4 and initial balance 1
+1: New account id is 5 with password 5 and initial balance 1
+1: New account id is 6 with password 6 and initial balance 1
+Bank: commissions of 3 % were charged, the bank gained 0 $ from account 6
+1: New account id is 7 with password 7 and initial balance 1
+1: New account id is 8 with password 8 and initial balance 1

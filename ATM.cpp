@@ -61,7 +61,11 @@ void *ATMAction(void* args){
             action_arg >> accountId_target >> amount;
             transfer(ATM_id, accountId, password, accountId_target, amount);
         }
-        usleep(100000);
+ //       pthread_mutex_lock(&log_write_mut);
+//
+  //      logfile<< "action " << action <<endl; //todo: debug
+    //    pthread_mutex_unlock(&log_write_mut);
+      //  usleep(100000);
     }
     inputFile.close();
     pthread_exit(NULL);
@@ -123,6 +127,9 @@ void *ATMAction(void* args){
         Account new_Account(accountID , password, initial_amount);
         bank_accounts[accountID]=new_Account;
         pthread_mutex_unlock(&insert_new_account_mut);
+        pthread_mutex_lock(&log_write_mut);
+        logfile << AtmID << ": New account id is " << accountID << " with password " << password << " and initial balance " << initial_amount << endl;
+        pthread_mutex_unlock(&log_write_mut);
         return;
     }
  }
@@ -258,7 +265,7 @@ void withdraw(int AtmID, int accountID, unsigned short int password, unsigned in
         return;
     }
 
-    int new_balance = bank_accounts[accountID].setBalance(MINUS, amount,0,true);
+    int new_balance = bank_accounts[accountID].getBalance(false) - amount;
     if(new_balance < 0){  //couldn't withdraw from the account
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountID << " balance is lower than "
@@ -266,6 +273,7 @@ void withdraw(int AtmID, int accountID, unsigned short int password, unsigned in
         pthread_mutex_unlock(&log_write_mut);
         return;
     } else{
+        bank_accounts[accountID].setBalance(MINUS,amount,0, true);
         pthread_mutex_lock(&log_write_mut);
         logfile << AtmID << ": Account "<< accountID << " new balance is " << new_balance << " after " << amount
             << " $ was withdrew" << endl;
@@ -304,8 +312,7 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
         pthread_mutex_unlock(&log_write_mut);
         return;
     }
-
-    int new_source_balance = bank_accounts[fromAccID].setBalance(MINUS, amount,0, true);
+    int new_source_balance = bank_accounts[fromAccID].getBalance(false) - amount;
     if(new_source_balance < 0) {  //couldn't withdraw from the account
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << fromAccID << " balance is lower than "
@@ -314,10 +321,11 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
         return;
     }
     int new_dest_balance = bank_accounts[toAccId].setBalance(PLUS, amount,0,false);
-    if(new_dest_balance > 0) {  //couldn't withdraw from the account
+    bank_accounts[fromAccID].setBalance(MINUS, amount,0, true);
+    if(new_dest_balance > 0) {  //todo: why couldn't????  couldn't withdraw from the account
         pthread_mutex_lock(&log_write_mut);
         logfile << AtmID << ": Transfer " << amount << " from account " << fromAccID << " to account " << toAccId
-            << " new account " << endl << "balance is " << new_source_balance << "new target account balance is "
+            << " new account " << "balance is " << new_source_balance << " new target account balance is "
             << new_dest_balance << endl;
         pthread_mutex_unlock(&log_write_mut);
         return;
