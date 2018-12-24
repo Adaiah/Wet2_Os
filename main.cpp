@@ -24,14 +24,25 @@ bool finished_all_actions;
 ofstream logfile;
 
 int main(int argc, char* argv[]) {
+    if(argc<2) { // too few arguments
+        logfile<< "illegal arguments" << endl;
+        return 0;
+    }
+
     finished_all_actions = false;
     pthread_t bank_thread;
     pthread_t atm_thread;
-    logfile.open("log.txt");
+
+    logfile.open("log.txt"); // creating log file
+
     vector<string>input_files( argv+2, argv+argc);
     Atm_args* atm_args = new Atm_args ;
     atm_args -> tot_num_of_atm = atoi(argv[NUM_OF_ATM]);
     atm_args -> input_files = input_files;
+    if(input_files.size()!= atm_args->tot_num_of_atm ){ // if number of files does not match number of ATMs
+        logfile<< "illegal arguments" << endl;
+        return 0;
+    }
     pthread_mutex_init(&log_write_mut, NULL);
     pthread_mutex_init(&snapshot_mut, NULL);
     pthread_mutex_init(&writing_mut, NULL);

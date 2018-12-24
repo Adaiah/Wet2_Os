@@ -90,7 +90,9 @@ void *ATMAction(void* args){
         atmIO[i].input_file = atm_args->input_files[i];
         atmIO[i].ATM_ID = i+1; //todo make sure this is ok
          if(rc = pthread_create(&atms_t[i], NULL, ATMAction, &atmIO[i])){
-             cout << "error: pthread_create, rc: "<< rc<<endl;
+             pthread_mutex_lock(&log_write_mut)
+             logfile << "error: pthread_create, rc: "<< rc<<endl;
+             pthread_mutex_unlock(&log_write_mut);
              pthread_exit(NULL);
          }
     }
@@ -350,4 +352,4 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
     }
 
 
-}
+

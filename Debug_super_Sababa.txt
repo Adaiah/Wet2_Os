@@ -1,15 +1,14 @@
 TODOs:
-* trying to open a file unsuccessfully
-* printing within a lock : problem at the transfer function
-* adding stderr to catch more problems
-* bad run attempt "illegal argument"
+* trying to open a file unsuccessfully- failed to do :(
+* adding stderr to catch more problems- failed to do :(
 
 
 
 Things to check:
 * understand bank status printing- not clear (פורום שאלות תחת הכותרת: הוראות הדפסה)
-* Did you lock all the accounts when printing the bank status to the screen?
 * run Guy's tests again
+* printing within a lock : problem at the transfer function
+
 
 
 Check which been done:
@@ -21,3 +20,8 @@ Check which been done:
 * Transfer from and to the same account	V 
 * function with not the right accountID	V
 * printing correctness	V
+* Did you lock all the accounts when printing the bank status to the screen?Yes V
+* bad run attempt "illegal argument"    V
+
+
+
