@@ -5,9 +5,9 @@
 
 //********************************************
 // function name: printStatus
-// Description:
-// Parameters:
-// Returns:
+// Description: prints the status of the bank to the screen
+// Parameters: None
+// Returns: NULL
 //**************************************************************************************
 void *printStatus(void* args){
     map<int, Account>::iterator it;
@@ -51,15 +51,13 @@ void *getCommissions (void* args){
     map<int, Account>::iterator it;
     int commission_rate;
     while(!finished_all_actions) {
-        logfile<<"commission"<<endl;
+        sleep(3);
         commission_rate = rand() % 3 + 2; //TODO: MAKE SURE THIS IS THE RIGHT DEFINITION
         for (it = bank_accounts.begin(); it != bank_accounts.end(); it++) {
             if ((it->second.getAccVIP()) == false) {   //account not VIP
-                logfile<<"commission happening"<<endl;
                 it->second.setBalance(false, 0, commission_rate, false);//todo: no sleep right?
             }
         }
-        sleep(3);
     }
     pthread_exit(NULL);
 }

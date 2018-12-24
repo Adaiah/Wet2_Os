@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 
     pthread_join(bank_thread, NULL);
     pthread_join(atm_thread, NULL);
-    logfile.close(); //todo: ??
+    logfile.close();
 
     pthread_mutex_unlock(&log_write_mut);
     pthread_mutex_unlock(&snapshot_mut);

@@ -126,10 +126,11 @@ void *ATMAction(void* args){
     else { // create and enter the new account into the bank_accounts map for future use
         Account new_Account(accountID , password, initial_amount);
         bank_accounts[accountID]=new_Account;
-        pthread_mutex_unlock(&insert_new_account_mut);
         pthread_mutex_lock(&log_write_mut);
         logfile << AtmID << ": New account id is " << accountID << " with password " << password << " and initial balance " << initial_amount << endl;
         pthread_mutex_unlock(&log_write_mut);
+        pthread_mutex_unlock(&insert_new_account_mut);
+
         return;
     }
  }
@@ -221,6 +222,14 @@ bool isAccountExist(int accountID){
 
 }
 
+//********************************************
+// function name: makeAccountVIP
+// Description: make account VIP, bank can't take commission
+// Parameters: AtmID - number of current ATM
+//             accountID - ID number of the current account
+//             password
+// Returns: N/A
+//**************************************************************************************
 void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
 //    cout<<"Debugd: makeAccountVIP"<<endl; //todo:debug
 //TODO: changed to write to file, please add locks to the rest of your logging
@@ -243,10 +252,13 @@ void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
 }
 
 //********************************************
-// function name: printStatus
-// Description:
-// Parameters:
-// Returns:
+// function name: withdraw
+// Description: withdraw the entered amount form the account if legal
+// Parameters: AtmID - number of current ATM
+//             accountID - ID number of the current account
+//             password
+//             amount - amount to withdraw from the account
+// Returns: N/A
 //**************************************************************************************
 void withdraw(int AtmID, int accountID, unsigned short int password, unsigned int amount){
 //    cout<<"Debugd: Withdraw"<<endl; //todo:debug
@@ -283,12 +295,18 @@ void withdraw(int AtmID, int accountID, unsigned short int password, unsigned in
 }
 
 //********************************************
-// function name: printStatus
-// Description:
-// Parameters:
-// Returns:
+// function name: transfer
+// Description: transfers money from one account to another after checking parameters of the
+//              action. if transfer is to the same account do nothing.
+// Parameters: AtmID - number of current ATM
+//             fromAccID - ID number of the account to take money from
+//             password
+//             toAccID - ID number of the account to deposit money to
+//             amount - amount to transfer to the account
+// Returns: N/A
 //**************************************************************************************
 void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId, unsigned int amount){
+
     if (!isAccountExist(fromAccID)) {
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << fromAccID
@@ -312,6 +330,7 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
         pthread_mutex_unlock(&log_write_mut);
         return;
     }
+
     int new_source_balance = bank_accounts[fromAccID].getBalance(false) - amount;
     if(new_source_balance < 0) {  //couldn't withdraw from the account
         pthread_mutex_lock(&log_write_mut);
@@ -322,6 +341,11 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
     }
     int new_dest_balance = bank_accounts[toAccId].setBalance(PLUS, amount,0,false);
     bank_accounts[fromAccID].setBalance(MINUS, amount,0, true);
+    pthread_mutex_lock(&log_write_mut);
+    logfile << AtmID << ": Transfer " << amount << " from account " << fromAccID << " to account " << toAccId
+            << " new account " << "balance is " << new_source_balance << " new target account balance is "
+            << new_dest_balance << endl;
+    pthread_mutex_unlock(&log_write_mut);
     if(new_dest_balance > 0) {  //todo: why couldn't????  couldn't withdraw from the account
         pthread_mutex_lock(&log_write_mut);
         logfile << AtmID << ": Transfer " << amount << " from account " << fromAccID << " to account " << toAccId

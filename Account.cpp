@@ -97,9 +97,9 @@ int Account:: getAccountId(){
 
 //********************************************
 // function name: getAccVIP
-// Description:
-// Parameters:
-// Returns:
+// Description: retuns whether the aacount is VIP or not
+// Parameters: NONE
+// Returns: true- VIP, false- not VIP
 //**************************************************************************************
 bool Account::getAccVIP(){
 
@@ -141,10 +141,10 @@ bool Account::checkPassword(unsigned short int password) {
 //Methods to change  the data
 
 //********************************************
-// function name: printStatus
-// Description:
-// Parameters:
-// Returns:
+// function name: setAccVIP
+// Description: turns the account to VIP
+// Parameters: NONE
+// Returns: NULL
 //**************************************************************************************
 void Account::setAccVIP(){
 

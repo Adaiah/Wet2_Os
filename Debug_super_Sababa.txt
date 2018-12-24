@@ -1,14 +1,22 @@
 TODOs:
-* threaded Commission
+* trying to open a file unsuccessfully
+* printing within a lock : problem at the transfer function
+* adding stderr to catch more problems
+* bad run attempt "illegal argument"
+
+
+Things to check:
+* understand bank status printing- not clear (פורום שאלות תחת הכותרת: הוראות הדפסה)
+* Did you lock all the accounts when printing the bank status to the screen?
+* run Guy's tests again
+
 
 Check which been done:
 * the short_atm test pass completly   V
 * short atm in at least 4 atms (same short code ) V
     *problem fixed: insert new account (same account) in the same time in different. - insert_lock
-
-
-Things to check:
-* Transfer function
-* withdraw more than available
-* Transfer from and to the same account
-* function with not the right accountID
+*Transfer to a non existing account   V
+* withdraw more than available(at with function as well as trannsfer function)	V
+* Transfer from and to the same account	V 
+* function with not the right accountID	V
+* printing correctness	V
