@@ -124,9 +124,9 @@ void *ATMAction(void* args){
         return;
     }
     else { // create and enter the new account into the bank_accounts map for future use
+        pthread_mutex_lock(&log_write_mut);
         Account new_Account(accountID , password, initial_amount);
         bank_accounts[accountID]=new_Account;
-        pthread_mutex_lock(&log_write_mut);
         logfile << AtmID << ": New account id is " << accountID << " with password " << password << " and initial balance " << initial_amount << endl;
         pthread_mutex_unlock(&log_write_mut);
         pthread_mutex_unlock(&insert_new_account_mut);
@@ -346,12 +346,6 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
             << " new account " << "balance is " << new_source_balance << " new target account balance is "
             << new_dest_balance << endl;
     pthread_mutex_unlock(&log_write_mut);
-    if(new_dest_balance > 0) {  //todo: why couldn't????  couldn't withdraw from the account
-        pthread_mutex_lock(&log_write_mut);
-        logfile << AtmID << ": Transfer " << amount << " from account " << fromAccID << " to account " << toAccId
-            << " new account " << "balance is " << new_source_balance << " new target account balance is "
-            << new_dest_balance << endl;
-        pthread_mutex_unlock(&log_write_mut);
         return;
     }
 

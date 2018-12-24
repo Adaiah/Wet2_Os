@@ -5,6 +5,7 @@ TODOs:
 * bad run attempt "illegal argument"
 
 
+
 Things to check:
 * understand bank status printing- not clear (פורום שאלות תחת הכותרת: הוראות הדפסה)
 * Did you lock all the accounts when printing the bank status to the screen?
