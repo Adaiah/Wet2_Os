@@ -109,7 +109,6 @@ int Account:: getAccountId(){
 //**************************************************************************************
 bool Account::getAccVIP(){
 
-//    cout<<"Debug: first lock "<<endl; //todo:debug
     bool curr_VIP_status = false ;
     pthread_mutex_lock(&this->vip_readtry);
     pthread_mutex_lock(&this->vip_read);
@@ -119,10 +118,8 @@ bool Account::getAccVIP(){
     pthread_mutex_unlock(&this->vip_read);
     pthread_mutex_unlock(&this->vip_readtry);
 
-//    cout<<"Debug: second lock "<<endl; //todo:debug
 
     curr_VIP_status = this->isVIP;
-   // logfile<<"is vip"<<curr_VIP_status<<endl;//todo debug
     pthread_mutex_lock(&this->vip_read);
     vip_readcount--;
     if (vip_readcount == 0)
@@ -191,29 +188,29 @@ void Account::addCommission(int commission){
 // Parameters: bool sign , unsigned int amount , int commission_rate
 // Returns: int
 //**************************************************************************************
-int Account::setBalance(ATM_Action atm_action, unsigned int amount, int commission_rate, unsigned int atm_id ) {
+int Account::setBalance(ATM_Action atm_action, int amount, double commission_rate, unsigned int atm_id ) {
     int curr_balance = 0;
-
     this->lockSetBalance();
-
-    int commission = this->balance*commission_rate/100;
+    double commission_d =balance*(commission_rate/100);
+    int commission = commission_d;
+    if ( commission + 0.5 < commission_d )
+        commission =commission+1;
     if((atm_action == WITHDRAW) || (atm_action == COMMISSION) ){  //decrease
-        if ((this->balance - amount - commission) < 0){ //if turn into to negative
+        if ((balance - amount - commission) < 0){ //if turn into to negative
             curr_balance = -1;
         } else{
-            this->balance = this->balance - amount - commission;
-            curr_balance = this->balance;
+            balance = balance - amount - commission;
+            curr_balance = balance;
         }
     } else{  //DEPOSIT = increase
-        this->balance = this->balance + amount;
-        curr_balance = this->balance;
+        balance = balance + amount;
+        curr_balance = balance;
     }
-    cout <<curr_balance <<endl;
     if((atm_action == WITHDRAW) || (atm_action == DEPOSIT)) sleep(1);
 
-    if((atm_action == COMMISSION) && (curr_balance <0)) {  //log commission charging
+    if((atm_action == COMMISSION) && (curr_balance >0)) {  //log commission charging
         pthread_mutex_lock(&log_write_mut);
-        logfile<<"Bank: commission of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId()<< " balance"<< curr_balance << endl;
+        logfile<<"Bank: commission of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
         pthread_mutex_unlock(&log_write_mut);
         this->addCommission(commission);
     }
@@ -265,8 +262,7 @@ unsigned int Account::printAccount(){
 // Returns: int
 //**************************************************************************************
 int Account::getCommissionTaken(){
-    int commission = 0;
-    commission = this->commission_taken;
+    int commission = this->commission_taken;
     this->commission_taken = 0;
     return commission;
 }

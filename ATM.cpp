@@ -35,10 +35,8 @@ void *ATMAction(void* args){
     //inputFile.open(atm_args->input_file);
     while(getline(inputFile, curr_line)) {
         stringstream action_arg;
-//        cout<<"debug: "<<curr_line<<endl ; //todo:debug
         action_arg.str(curr_line);
         action_arg >> action >> accountId >> password;
-//        cout<<"Debug: "<<action<<endl; //todo:debug
         if(action == 'O'){
             action_arg >> amount;
             openAccount(ATM_id, accountId,password,amount);
@@ -61,11 +59,7 @@ void *ATMAction(void* args){
             action_arg >> accountId_target >> amount;
             transfer(ATM_id, accountId, password, accountId_target, amount);
         }
- //       pthread_mutex_lock(&log_write_mut);
-//
-  //      logfile<< "action " << action <<endl; //todo: debug
-    //    pthread_mutex_unlock(&log_write_mut);
-      //  usleep(100000);
+        usleep(100000); //sleep for 0.1 second
     }
     inputFile.close();
     pthread_exit(NULL);
@@ -90,7 +84,7 @@ void *ATMAction(void* args){
         atmIO[i].input_file = atm_args->input_files[i];
         atmIO[i].ATM_ID = i+1; //todo make sure this is ok
          if(rc = pthread_create(&atms_t[i], NULL, ATMAction, &atmIO[i])){
-             pthread_mutex_lock(&log_write_mut)
+             pthread_mutex_lock(&log_write_mut);
              logfile << "error: pthread_create, rc: "<< rc<<endl;
              pthread_mutex_unlock(&log_write_mut);
              pthread_exit(NULL);
@@ -115,7 +109,6 @@ void *ATMAction(void* args){
 // Returns: N/A
 //**************************************************************************************
  void openAccount(int AtmID, int accountID, int password, int initial_amount){
-//    cout<<"Debugd: openAccout"<<endl; //todo:debug
     pthread_mutex_lock(&insert_new_account_mut);
     sleep(1);
     if (isAccountExist(accountID)) { //account exists
@@ -147,7 +140,6 @@ void *ATMAction(void* args){
 // Returns: N/A
 //**************************************************************************************
 void Deposit(int AtmID, int accountId, int password, int amount){
-//    cout<<"Debugd: Deposit"<<endl; //todo:debug
     if (!isAccountExist(accountId)) {
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountId
@@ -175,7 +167,6 @@ void Deposit(int AtmID, int accountId, int password, int amount){
 // Returns: N/A
 //**************************************************************************************
 void checkAmount(int AtmID, int accountId, int password) {
-//    cout<<"Debugd: checkAmount"<<endl; //todo:debug
     int curr_balance=0;
     if (!isAccountExist(accountId)) {
         pthread_mutex_lock(&log_write_mut);

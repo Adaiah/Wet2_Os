@@ -49,7 +49,7 @@ void *printStatus(void* args){
 //**************************************************************************************
 void *getCommissions (void* args){
     map<int, Account>::iterator it;
-    int commission_rate;
+    double commission_rate;
     while(!finished_all_actions) {
         sleep(3);
         commission_rate = rand() % 3 + 2; //TODO: MAKE SURE THIS IS THE RIGHT DEFINITION

@@ -46,7 +46,7 @@ private:
 
 
 public:
-    unsigned int balance;
+    int balance;
 
     //constructor
     Account(int accountId=0, unsigned short int password=0, int balance=0);
@@ -71,7 +71,7 @@ public:
     void setAccVIP();
     void addCommission(int commission);
 
-    int setBalance(ATM_Action atm_action, unsigned int amount, int commission_rate ,unsigned int atm_id );
+    int setBalance(ATM_Action atm_action, int amount, double commission_rate ,unsigned int atm_id );
 
     unsigned int printAccount();
 
