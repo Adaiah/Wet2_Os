@@ -39,6 +39,9 @@ int main(int argc, char* argv[]) {
     Atm_args* atm_args = new Atm_args ;
     atm_args -> tot_num_of_atm = atoi(argv[NUM_OF_ATM]);
     atm_args -> input_files = input_files;
+    // todo: check if the first arg[1] is positive number
+    // todo: check if the log files are available
+    // todo: check if the
     if(input_files.size()!= atm_args->tot_num_of_atm ){ // if number of files does not match number of ATMs
         logfile<< "illegal arguments" << endl;
         return 0;

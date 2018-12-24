@@ -61,7 +61,7 @@ Account::~Account(){
 // Parameters: N/A
 // Returns: N/A
 //**************************************************************************************
-unsigned int Account::getBalance(bool sleep_flag){
+unsigned int Account::getBalance(bool bank_or_atm, unsigned int atm_id){
 
     unsigned int curr_balance = 0 ;
     pthread_mutex_lock(&balance_readtry);
@@ -73,7 +73,13 @@ unsigned int Account::getBalance(bool sleep_flag){
     pthread_mutex_unlock(&balance_readtry);
 
     curr_balance = this->balance;
-    if(sleep_flag) sleep(1);
+
+    if(bank_or_atm) {
+        sleep(1);
+        pthread_mutex_lock(&log_write_mut);
+        logfile << atm_id << ": Account " << this->accountId << " balance is " << curr_balance << endl;
+        pthread_mutex_unlock(&log_write_mut);
+    }
 
     pthread_mutex_lock(&balance_read);
     balance_readcount--;
@@ -185,69 +191,55 @@ void Account::addCommission(int commission){
 // Parameters: bool sign , unsigned int amount , int commission_rate
 // Returns: int
 //**************************************************************************************
-int Account::setBalance( bool sign, unsigned int amount, int commission_rate, bool sleep_flag) {
-    //sign : true = plus , false = minus, commission_rate=0 unless called upon by bank
+int Account::setBalance(ATM_Action atm_action, unsigned int amount, int commission_rate, unsigned int atm_id ) {
     int curr_balance = 0;
+
+    this->lockSetBalance();
+
     int commission = this->balance*commission_rate/100;
-//    cout<<"Debug: first lock "<<curr_balance<<" amount: "<<amount<<" commission: "<<commission_rate<<endl; //todo:debug
-    // concurrency between the snapshot printing and editing the balances
-    pthread_mutex_lock(&writing_mut);
-    snapshot_writing_counter++;
-    if(snapshot_writing_counter == 1)
-        pthread_mutex_lock(&snapshot_mut);
-    pthread_mutex_unlock(&writing_mut);
-
-
-//    cout<<"Debug: second lock "<<curr_balance<<endl; //todo:debug
-    // concurrency between reading-writing to balance priority to writing
-    pthread_mutex_lock(&balance_write);
-    balance_writecount++;
-    if (balance_writecount == 1)
-        pthread_mutex_lock(&balance_readtry);
-    pthread_mutex_unlock(&balance_write);
-
-//    cout<<"Debug: third lock "<<curr_balance<<endl; //todo:debug
-    pthread_mutex_lock(&balance_resource);
-
-//    cout<<"Debug: inside lock "<<curr_balance<<endl; //todo:debug
-    if(!sign){  //decrease
+    if((atm_action == WITHDRAW) || (atm_action == COMMISSION) ){  //decrease
         if ((this->balance - amount - commission) < 0){ //if turn into to negative
             curr_balance = -1;
         } else{
             this->balance = this->balance - amount - commission;
             curr_balance = this->balance;
         }
-    } else{  //increase
+    } else{  //DEPOSIT = increase
         this->balance = this->balance + amount;
         curr_balance = this->balance;
     }
-    if(sleep_flag) sleep(1);
+    cout <<curr_balance <<endl;
+    if((atm_action == WITHDRAW) || (atm_action == DEPOSIT)) sleep(1);
 
-    pthread_mutex_unlock(&balance_resource);
-//    cout<<"Debug: third unlock "<<curr_balance<<endl; //todo:debug
-
-    // concurrency between reading-writing to balance priority to writing
-    pthread_mutex_lock(&balance_write);
-    balance_writecount--;
-    if(balance_writecount == 0)
-        pthread_mutex_unlock(&balance_readtry);
-    pthread_mutex_unlock(&balance_write);
-//    cout<<"Debug: second unlock "<<curr_balance<<endl; //todo:debug
-
-    if(commission_rate>0 && curr_balance != -1) { //log commission charging
+    if((atm_action == COMMISSION) && (curr_balance <0)) {  //log commission charging
         pthread_mutex_lock(&log_write_mut);
-        logfile<<"Bank: commission of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
+        logfile<<"Bank: commission of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId()<< " balance"<< curr_balance << endl;
         pthread_mutex_unlock(&log_write_mut);
         this->addCommission(commission);
     }
+    if (atm_action == DEPOSIT){
+        pthread_mutex_lock(&log_write_mut);
+        logfile << atm_id << ": Account " << this->accountId << " new balance is " << curr_balance << " after "
+        << amount << " $ was deposited" << endl;
+        pthread_mutex_unlock(&log_write_mut);
+    }
+    else if (atm_action == WITHDRAW){
+        if (curr_balance <0){
+            pthread_mutex_lock(&log_write_mut);
+            logfile << "Error " << atm_id << ": Your transaction failed - account id " << this->accountId << " balance is lower than "
+            << amount << endl;
+            pthread_mutex_unlock(&log_write_mut);
+        }
+        else{
+            pthread_mutex_lock(&log_write_mut);
+            logfile << atm_id << ": Account "<< this->accountId << " new balance is " << curr_balance << " after " << amount
+            << " $ was withdrew" << endl;
+            pthread_mutex_unlock(&log_write_mut);
+        }
+    }
 
-    // concurrency between the snapshot printing and editing the balances
-    pthread_mutex_lock(&writing_mut);
-    snapshot_writing_counter--;
-    if(snapshot_writing_counter == 0)
-        pthread_mutex_unlock(&snapshot_mut);
-    pthread_mutex_unlock(&writing_mut);
-//    cout<<"Debug: first unlock "<<curr_balance<<endl; //todo:debug
+
+    this->unlockSetBalance();
 
     return curr_balance;
 }
@@ -258,7 +250,7 @@ int Account::setBalance( bool sign, unsigned int amount, int commission_rate, bo
 // Returns:
 //**************************************************************************************
 unsigned int Account::printAccount(){
-    unsigned int curr_balance = this->getBalance(false);
+    unsigned int curr_balance = this->getBalance(false, 0);
     cout <<"Account "<< this->getAccountId() <<": Balance - " << curr_balance
         << " $ , Account Password - " << this->password << endl;
     return curr_balance;
@@ -278,3 +270,45 @@ int Account::getCommissionTaken(){
     this->commission_taken = 0;
     return commission;
 }
+
+
+void Account::lockSetBalance(){
+    // concurrency between the snapshot printing and editing the balances
+    pthread_mutex_lock(&writing_mut);
+    snapshot_writing_counter++;
+    if(snapshot_writing_counter == 1)
+        pthread_mutex_lock(&snapshot_mut);
+    pthread_mutex_unlock(&writing_mut);
+
+
+    // concurrency between reading-writing to balance priority to writing
+    pthread_mutex_lock(&balance_write);
+    balance_writecount++;
+
+    if (balance_writecount == 1)
+        pthread_mutex_lock(&balance_readtry);
+    pthread_mutex_unlock(&balance_write);
+
+    pthread_mutex_lock(&balance_resource);
+}
+
+void Account::unlockSetBalance(){
+
+    pthread_mutex_unlock(&balance_resource);
+    // concurrency between reading-writing to balance priority to writing
+    pthread_mutex_lock(&balance_write);
+    balance_writecount--;
+    if(balance_writecount == 0)
+        pthread_mutex_unlock(&balance_readtry);
+    pthread_mutex_unlock(&balance_write);
+
+
+    // concurrency between the snapshot printing and editing the balances
+    pthread_mutex_lock(&writing_mut);
+    snapshot_writing_counter--;
+    if(snapshot_writing_counter == 0)
+        pthread_mutex_unlock(&snapshot_mut);
+    pthread_mutex_unlock(&writing_mut);
+}
+
+

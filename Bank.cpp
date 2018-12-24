@@ -55,7 +55,7 @@ void *getCommissions (void* args){
         commission_rate = rand() % 3 + 2; //TODO: MAKE SURE THIS IS THE RIGHT DEFINITION
         for (it = bank_accounts.begin(); it != bank_accounts.end(); it++) {
             if ((it->second.getAccVIP()) == false) {   //account not VIP
-                it->second.setBalance(false, 0, commission_rate, false);//todo: no sleep right?
+                it->second.setBalance(COMMISSION, 0, commission_rate, 0);
             }
         }
     }

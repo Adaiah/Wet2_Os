@@ -18,28 +18,36 @@ extern pthread_mutex_t writing_mut;
 extern int snapshot_writing_counter;
 extern ofstream logfile;
 
+typedef enum{
+    WITHDRAW,
+    DEPOSIT,
+    COMMISSION
+}ATM_Action;
+
 
 
 class Account {
 private:
     int accountId;
     unsigned short int password;
-    unsigned int balance;
     unsigned int commission_taken;
-    pthread_mutex_t balance_read;
-    pthread_mutex_t balance_write;
-    pthread_mutex_t balance_readtry;
-    pthread_mutex_t balance_resource;
-    int balance_readcount, balance_writecount;
     bool isVIP;
     pthread_mutex_t vip_read;
     pthread_mutex_t vip_write;
     pthread_mutex_t vip_readtry;
     pthread_mutex_t vip_resource;
     int vip_readcount, vip_writecount;
+    int balance_readcount, balance_writecount;
+    pthread_mutex_t balance_read;
+    pthread_mutex_t balance_write;
+    pthread_mutex_t balance_readtry;
+    pthread_mutex_t balance_resource;
+
 
 
 public:
+    unsigned int balance;
+
     //constructor
     Account(int accountId=0, unsigned short int password=0, int balance=0);
 
@@ -49,7 +57,7 @@ public:
     //Methods to access data individually
     int getAccountId();
 
-    unsigned int getBalance( bool sleep_flag);
+    unsigned int getBalance( bool bank_or_Atm, unsigned int atm_id); //bank = false, atm = true
 
     bool getAccVIP();
 
@@ -60,13 +68,16 @@ public:
     int getCommissionTaken();
 
         //Methods to change  the data
-        void setAccVIP();
+    void setAccVIP();
     void addCommission(int commission);
 
-//todo: added commission rate to function args
-        int setBalance(bool sign, unsigned int amount, int commission_rate, bool sleep_flag); //sign true = plus, false = minus
+    int setBalance(ATM_Action atm_action, unsigned int amount, int commission_rate ,unsigned int atm_id );
 
-        unsigned int printAccount();
+    unsigned int printAccount();
+
+    void lockSetBalance();
+
+    void unlockSetBalance();
 };
 
 #endif //WET2_ACCOUNT_H
