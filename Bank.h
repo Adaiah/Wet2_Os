@@ -28,6 +28,7 @@ typedef struct{
     Account* curr_Account;
     int commission_rate;
 }Comm_args;
+
 void *miniMainBank(void* args);
 
 #endif //WET2_BANK_H

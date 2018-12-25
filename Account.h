@@ -21,7 +21,6 @@ extern ofstream logfile;
 typedef enum{
     WITHDRAW,
     DEPOSIT,
-    COMMISSION
 }ATM_Action;
 
 
@@ -78,6 +77,7 @@ public:
     void lockSetBalance();
 
     void unlockSetBalance();
+    void takeCommission( double commission_rate)
 };
 
 #endif //WET2_ACCOUNT_H

@@ -24,6 +24,10 @@ void *ATMAction(void* args){
 
     atm_input_output* atm_args= (atm_input_output*)args;
     ifstream inputFile(atm_args->input_file.c_str());
+    if(!inputFile.is_open()){//check file successfully opened
+        perror("Error ");
+        exit(1);
+    }
     int ATM_id=atm_args->ATM_ID;
     string curr_line;
 
@@ -32,7 +36,6 @@ void *ATMAction(void* args){
     unsigned short int password;
     unsigned int balance, amount;
 
-    //inputFile.open(atm_args->input_file);
     while(getline(inputFile, curr_line)) {
         stringstream action_arg;
         action_arg.str(curr_line);
@@ -303,11 +306,18 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
     }
 
     //locking the balances for reading and writing for both of the accounts
-    bank_accounts[fromAccID].lockSetBalance();
-    bank_accounts[toAccId].lockSetBalance();
+    if(fromAccID>toAccId) { // lock the account with lower accountID first to avoid deadlock
+        bank_accounts[toAccId].lockSetBalance();
+        bank_accounts[fromAccID].lockSetBalance();
+    }
+    else {
+        bank_accounts[fromAccID].lockSetBalance();
+        bank_accounts[toAccId].lockSetBalance();
+
+    }
     unsigned int curr_from_balance = bank_accounts[fromAccID].balance;
 
-    if( curr_from_balance - amount < 0) {  //couldn't withdraw from the account
+    if( curr_from_balance - (int)amount < 0) {  //couldn't withdraw from the account
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << fromAccID << " balance is lower than "
              << amount << endl;
@@ -328,6 +338,7 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
     pthread_mutex_unlock(&log_write_mut);
 
     //unlocking the balances for reading and writing for both of the accounts
+    // unlocking does not care for the position of id within the map
     bank_accounts[fromAccID].unlockSetBalance();
     bank_accounts[toAccId].unlockSetBalance();
 

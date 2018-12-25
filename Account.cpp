@@ -28,30 +28,23 @@ Account::Account(int accountId , unsigned short int password  , int balance):acc
 
 //********************************************
 // function name: ~Account
-// Description: d'tr
+// Description: d'tr, opens mutex if locked in order to destroy. avoid undefined behaviour
 // Parameters: N/A
 // Returns: N/A
 //**************************************************************************************
 Account::~Account(){
-    pthread_mutex_unlock(&balance_read);
-    pthread_mutex_unlock(&balance_write);
-    pthread_mutex_unlock(&balance_resource);
-    pthread_mutex_unlock(&balance_readtry);
-    pthread_mutex_unlock(&vip_read);
-    pthread_mutex_unlock(&vip_write);
-    pthread_mutex_unlock(&vip_readtry);
-    pthread_mutex_unlock(&vip_resource);
+    if(!pthread_mutex_unlock(&Account_read)) {
+        pthread_mutex_unlock(&Account_read);
+    }
+    else    pthread_mutex_destroy(&Account_read);
 
+    if(!pthread_mutex_trylock(&Account_write) {
+        pthread_mutex_unlock(&Account_write);
+    }
+            else pthread_mutex_destroy(&Account_write);
 
-    pthread_mutex_destroy(&balance_read);
-    pthread_mutex_destroy(&balance_write);
-    pthread_mutex_destroy(&balance_resource);
-    pthread_mutex_destroy(&balance_readtry);
-    pthread_mutex_destroy(&vip_read);
-    pthread_mutex_destroy(&vip_write);
-    pthread_mutex_destroy(&vip_readtry);
-    pthread_mutex_destroy(&vip_resource);
 }
+
 
 //Methods to access data individually
 
@@ -183,37 +176,54 @@ void Account::addCommission(int commission){
 }
 
 //********************************************
+// function name: takeCommission
+// Description: used by the bank to take commission
+// Parameters: double commission
+// Returns: void
+//**************************************************************************************
+void Account::takeCommission( double commission_rate){
+    if(!this->isVIP) { // if not a vip
+
+        double commission_d = balance * (commission_rate / 100);
+
+        int commission = commission_d;
+        if (commission + 0.5 < commission_d)
+            commission = commission + 1;
+
+        balance = balance - commission;
+        pthread_mutex_lock(&log_write_mut);
+        logfile<<"Bank: commission of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
+        pthread_mutex_unlock(&log_write_mut);
+        this->addCommission(commission);
+
+    }
+    return;
+
+}
+
+//********************************************
 // function name: setBalance
 // Description: set the new balance by adding or decreasing the amount
 // Parameters: bool sign , unsigned int amount , int commission_rate
 // Returns: int
 //**************************************************************************************
-int Account::setBalance(ATM_Action atm_action, int amount, double commission_rate, unsigned int atm_id ) {
+int Account::setBalance(ATM_Action atm_action, int amount, unsigned int atm_id ) {
     int curr_balance = 0;
     this->lockSetBalance();
-    double commission_d =balance*(commission_rate/100);
-    int commission = commission_d;
-    if ( commission + 0.5 < commission_d )
-        commission =commission+1;
-    if((atm_action == WITHDRAW) || (atm_action == COMMISSION) ){  //decrease
-        if ((balance - amount - commission) < 0){ //if turn into to negative
+    sleep(1);
+    if((atm_action == WITHDRAW) ) ){  //decrease
+        if ((balance - amount ) < 0){ //if turn into to negative
             curr_balance = -1;
         } else{
-            balance = balance - amount - commission;
+            balance = balance - amount ;
             curr_balance = balance;
         }
     } else{  //DEPOSIT = increase
         balance = balance + amount;
         curr_balance = balance;
     }
-    if((atm_action == WITHDRAW) || (atm_action == DEPOSIT)) sleep(1);
 
-    if((atm_action == COMMISSION) && (curr_balance >0)) {  //log commission charging
-        pthread_mutex_lock(&log_write_mut);
-        logfile<<"Bank: commission of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
-        pthread_mutex_unlock(&log_write_mut);
-        this->addCommission(commission);
-    }
+
     if (atm_action == DEPOSIT){
         pthread_mutex_lock(&log_write_mut);
         logfile << atm_id << ": Account " << this->accountId << " new balance is " << curr_balance << " after "

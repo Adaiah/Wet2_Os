@@ -1,20 +1,25 @@
 TODOs:
-* trying to open a file unsuccessfully- Adaiah (make sure in new version)
-* adding stderr to catch more problems- Adaiah (make sure in new version)
-* getCommission func.
 * lockSetAccount -  Gal
 * unlockSetAccount - .
 * lockGetAccount -   . 
-* unlockGetAccount - Gal
-* take commission out og setbalance -Adaiah
-* transfer -lock smaller accountID - Adaiah
+* unlockGetAccount - .
+* Add this check to the mutex:
+ if (!pthread_mutex_unlock(&Account_write)) {
+         perror("Error ");
+         return -1;
 
+     } -            Gal
+* is there a need for a lock on the variable commission_taken since its shared? (perhaps locking the account solves this issue?)
 
 
 Things to check:
-* understand bank status printing- not clear (פורום שאלות תחת הכותרת: הוראות הדפסה)
 * run Guy's tests again
 * printing within a lock : problem at the transfer function
+* trying to open a file unsuccessfully
+* adding stderr to catch more problems
+* take commission out og setbalance -Adaiah
+* transfer -lock smaller accountID - Adaiah
+* getCommission func.
 
 
 
@@ -29,6 +34,8 @@ Check which been done:
 * printing correctness	V
 * Did you lock all the accounts when printing the bank status to the screen?Yes V
 * bad run attempt "illegal argument"    V
+* understand bank status printing- not clear (פורום שאלות תחת הכותרת: הוראות הדפסה) V
+
 
 
 
