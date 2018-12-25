@@ -1,6 +1,13 @@
 TODOs:
-* trying to open a file unsuccessfully- failed to do :(
-* adding stderr to catch more problems- failed to do :(
+* trying to open a file unsuccessfully- Adaiah (make sure in new version)
+* adding stderr to catch more problems- Adaiah (make sure in new version)
+* getCommission func.
+* lockSetAccount -  Gal
+* unlockSetAccount - .
+* lockGetAccount -   . 
+* unlockGetAccount - Gal
+* take commission out og setbalance -Adaiah
+* transfer -lock smaller accountID - Adaiah
 
 
 
