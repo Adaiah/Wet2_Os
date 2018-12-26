@@ -26,7 +26,7 @@ using namespace std;
 extern ofstream logfile;
 extern map<int, Account> bank_accounts;
 extern pthread_mutex_t log_write_mut;
-extern pthread_mutex_t insert_new_account_mut;
+extern pthread_mutex_t bank_account_mut;
 extern bool finished_all_actions;
 
 typedef struct{

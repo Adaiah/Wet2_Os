@@ -26,6 +26,7 @@ void *printStatus(void* args){
         pthread_mutex_unlock(&snapshot_mut);
         usleep(500000); //sleep for half a second
     }
+
     //final snapshot. there are no more ATM but commission can be still on
     pthread_mutex_lock(&snapshot_mut);
     printf("\033[2J");
@@ -49,18 +50,17 @@ void *printStatus(void* args){
 //**************************************************************************************
 void *getCommissions (void* args){
     map<int, Account>::iterator it;
-    int commission_rate;
+    double commission_rate;
     while(!finished_all_actions) {
         sleep(3);
-        commission_rate = rand() % 3 + 2; //TODO: MAKE SURE THIS IS THE RIGHT DEFINITION
-
-        // from the forum - in order to get coherent log lock the whole Bank
-        pthread_mutex_lock(&snapshot_mut);
+        commission_rate = rand() % 3 + 2;
+        pthread_mutex_lock(&snapshot_mut); // stop current writers
+        pthread_mutex_lock(&bank_account_mut); //stop new actions to operate
         for (it = bank_accounts.begin(); it != bank_accounts.end(); it++) {
             it->second.takeCommission(commission_rate);
         }
+        pthread_mutex_unlock(&bank_account_mut);
         pthread_mutex_unlock(&snapshot_mut);
-
     }
     pthread_exit(NULL);
 }

@@ -120,8 +120,8 @@ void Account::setAccVIP(){
 
     this->lockSetAccount();
 
-    this->isVIP=true;
     sleep(1);
+    this->isVIP=true;
 
     this->unlockSetAccount();
 }
@@ -154,7 +154,7 @@ void Account::takeCommission( double commission_rate){
 
         balance = balance - commission;
         pthread_mutex_lock(&log_write_mut);
-        logfile<<"Bank: commission of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
+        logfile<<"Bank: commissions of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
         pthread_mutex_unlock(&log_write_mut);
 
         //add the commission taken to the place which thr bank can take in the printBank
@@ -197,8 +197,8 @@ int Account::setBalance(ATM_Action atm_action, int amount, unsigned int atm_id )
         << amount << " $ was deposited" << endl;
         pthread_mutex_unlock(&log_write_mut);
     }
-    else if (atm_action == WITHDRAW){
-        if (curr_balance <0){
+    else { //withdraw
+        if (curr_balance < 0){
             pthread_mutex_lock(&log_write_mut);
             logfile << "Error " << atm_id << ": Your transaction failed - account id " << this->accountId << " balance is lower than "
             << amount << endl;
@@ -254,12 +254,8 @@ int Account::getCommissionTaken(){
 //**************************************************************************************
 void Account::lockSetAccount(){
     // concurrency between Bank lock (locks all the accounts for writing)
-    pthread_mutex_lock(&writing_mut);
-    snapshot_writing_counter++;
-    if(snapshot_writing_counter == 1)
-        pthread_mutex_lock(&snapshot_mut);
-    pthread_mutex_unlock(&writing_mut);
-
+    pthread_mutex_lock(&snapshot_mut);
+    pthread_mutex_unlock(&snapshot_mut);
 
     // concurrency between reading-writing to balance priority to writing
     pthread_mutex_lock(&account_write);
@@ -289,13 +285,6 @@ void Account::unlockSetAccount(){
         pthread_mutex_unlock(&account_readtry);
     pthread_mutex_unlock(&account_write);
 
-
-    // concurrency between Bank lock (locks all the accounts for writing)
-    pthread_mutex_lock(&writing_mut);
-    snapshot_writing_counter--;
-    if(snapshot_writing_counter == 0)
-        pthread_mutex_unlock(&snapshot_mut);
-    pthread_mutex_unlock(&writing_mut);
 }
 
 

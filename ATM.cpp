@@ -37,32 +37,32 @@ void *ATMAction(void* args){
     unsigned int balance, amount;
 
     while(getline(inputFile, curr_line)) {
+        usleep(100000); //sleep for 100 milliseconds
         stringstream action_arg;
         action_arg.str(curr_line);
         action_arg >> action >> accountId >> password;
-        if(action == 'O'){
+        if(action == 'O'){  //open new account
             action_arg >> amount;
             openAccount(ATM_id, accountId,password,amount);
         }
-        else if (action =='L') {
+        else if (action =='L') { // make account VIP
             makeAccountVIP(ATM_id, accountId,password);
         }
-        else if (action == 'D'){
+        else if (action == 'D'){ //deposit
             action_arg >> amount;
             Deposit(ATM_id, accountId,password,amount);
         }
-        else if (action == 'W') {
+        else if (action == 'W') { //withdraw
             action_arg >> amount;
             withdraw(ATM_id, accountId, password,amount);
         }
-        else if (action == 'B') {
+        else if (action == 'B') { //show current balance
             checkAmount(ATM_id,accountId,password);
         }
-        else if (action == 'T') {
+        else if (action == 'T') { //transfer
             action_arg >> accountId_target >> amount;
             transfer(ATM_id, accountId, password, accountId_target, amount);
         }
-        usleep(100000); //sleep for 0.1 second
     }
     inputFile.close();
     pthread_exit(NULL);
@@ -110,13 +110,13 @@ void *ATMAction(void* args){
 // Returns: N/A
 //**************************************************************************************
  void openAccount(int AtmID, int accountID, int password, int initial_amount){
-    pthread_mutex_lock(&insert_new_account_mut);
+    pthread_mutex_lock(&bank_account_mut);
     sleep(1);
     if (isAccountExist(accountID)) { //account exists
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account with the same id exists" << endl;
         pthread_mutex_unlock(&log_write_mut);
-        pthread_mutex_unlock(&insert_new_account_mut);
+        pthread_mutex_unlock(&bank_account_mut);
         return;
     }
     else { // create and enter the new account into the bank_accounts map for future use
@@ -125,7 +125,7 @@ void *ATMAction(void* args){
         bank_accounts[accountID]=new_Account;
         logfile << AtmID << ": New account id is " << accountID << " with password " << password << " and initial balance " << initial_amount << endl;
         pthread_mutex_unlock(&log_write_mut);
-        pthread_mutex_unlock(&insert_new_account_mut);
+        pthread_mutex_unlock(&bank_account_mut);
 
         return;
     }
@@ -141,14 +141,20 @@ void *ATMAction(void* args){
 // Returns: N/A
 //**************************************************************************************
 void Deposit(int AtmID, int accountId, int password, int amount){
+    pthread_mutex_lock(&bank_account_mut);
     if (!isAccountExist(accountId)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountId
                 << " does not exist" << endl;
         pthread_mutex_unlock(&log_write_mut);
+        pthread_mutex_unlock(&bank_account_mut);
         return;
     }
-    else if (!bank_accounts[accountId].checkPassword(password)) {
+    pthread_mutex_unlock(&bank_account_mut);
+
+    if (!bank_accounts[accountId].checkPassword(password)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - password for account id " << accountId
                 << " is incorrect" << endl;
@@ -169,14 +175,20 @@ void Deposit(int AtmID, int accountId, int password, int amount){
 //**************************************************************************************
 void checkAmount(int AtmID, int accountId, int password) {
     int curr_balance=0;
+    pthread_mutex_lock(&bank_account_mut);
     if (!isAccountExist(accountId)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountId
                 << " does not exist" << endl;
         pthread_mutex_unlock(&log_write_mut);
+        pthread_mutex_unlock(&bank_account_mut);
         return;
     }
-    else if (!bank_accounts[accountId].checkPassword(password)) {
+    pthread_mutex_unlock(&bank_account_mut);
+
+    if (!bank_accounts[accountId].checkPassword(password)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - password for account id " << accountId
                 << " is incorrect" << endl;
@@ -200,7 +212,6 @@ bool isAccountExist(int accountID){
     map<int, Account>::iterator it;
 
     it =bank_accounts.find(accountID);
-
     if (it == bank_accounts.end()) { // account not found
         return false;
     }
@@ -218,15 +229,20 @@ bool isAccountExist(int accountID){
 // Returns: N/A
 //**************************************************************************************
 void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
+    pthread_mutex_lock(&bank_account_mut);
     if (!isAccountExist(accountID)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountID
              << " does not exist" << endl;
         pthread_mutex_unlock(&log_write_mut);
-
+        pthread_mutex_unlock(&bank_account_mut);
         return;
     }
-    else if (!bank_accounts[accountID].checkPassword(password)) {
+    pthread_mutex_unlock(&bank_account_mut);
+
+    if (!bank_accounts[accountID].checkPassword(password)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - password for account id " << accountID
              << " is incorrect" << endl;
@@ -246,14 +262,21 @@ void makeAccountVIP(int AtmID, int accountID, unsigned short int password) {
 // Returns: N/A
 //**************************************************************************************
 void withdraw(int AtmID, int accountID, unsigned short int password, unsigned int amount){
+
+    pthread_mutex_lock(&bank_account_mut);
     if (!isAccountExist(accountID)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << accountID
              << " does not exist" << endl;
         pthread_mutex_unlock(&log_write_mut);
+        pthread_mutex_unlock(&bank_account_mut);
         return;
     }
-    else if (!bank_accounts[accountID].checkPassword(password)) {
+    pthread_mutex_unlock(&bank_account_mut);
+
+    if (!bank_accounts[accountID].checkPassword(password)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - password for account id " << accountID
              << " is incorrect" << endl;
@@ -278,14 +301,20 @@ void withdraw(int AtmID, int accountID, unsigned short int password, unsigned in
 //**************************************************************************************
 void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId, unsigned int amount){
 
+    pthread_mutex_lock(&bank_account_mut);
     if (!isAccountExist(fromAccID)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << fromAccID
              << " does not exist" << endl;
         pthread_mutex_unlock(&log_write_mut);
+        pthread_mutex_unlock(&bank_account_mut);
         return;
     }
-    else if (!bank_accounts[fromAccID].checkPassword(password)) {
+    pthread_mutex_unlock(&bank_account_mut);
+
+    if (!bank_accounts[fromAccID].checkPassword(password)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - password for account id " <<  fromAccID
              << " is incorrect" << endl;
@@ -295,13 +324,18 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
     if (fromAccID == toAccId) //if self transfer - do nothing
         return;
 
+    pthread_mutex_lock(&bank_account_mut);
     if (!isAccountExist(toAccId)) {
+        sleep(1);
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << toAccId
              << " does not exist" << endl;
         pthread_mutex_unlock(&log_write_mut);
+        pthread_mutex_unlock(&bank_account_mut);
         return;
     }
+    pthread_mutex_unlock(&bank_account_mut);
+
 
     //locking the balances for reading and writing for both of the accounts
     if(fromAccID>toAccId) { // lock the account with lower accountID first to avoid deadlock
@@ -313,9 +347,10 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
         bank_accounts[toAccId].lockSetAccount();
 
     }
+    sleep(1);
     unsigned int curr_from_balance = bank_accounts[fromAccID].balance;
 
-    if( curr_from_balance - (int)amount < 0) {  //couldn't withdraw from the account
+    if( (int)curr_from_balance - (int)amount < 0) {  //couldn't withdraw from the account
         pthread_mutex_lock(&log_write_mut);
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << fromAccID << " balance is lower than "
              << amount << endl;
@@ -327,8 +362,9 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
 
     bank_accounts[fromAccID].balance = curr_from_balance - amount;
     unsigned int new_source_balance = bank_accounts[fromAccID].balance;
-    bank_accounts[fromAccID].balance =  bank_accounts[fromAccID].balance + amount;
-    unsigned int new_dest_balance = bank_accounts[fromAccID].balance;
+
+    bank_accounts[toAccId].balance =  bank_accounts[toAccId].balance + amount;
+    unsigned int new_dest_balance = bank_accounts[toAccId].balance;
     pthread_mutex_lock(&log_write_mut);
     logfile << AtmID << ": Transfer " << amount << " from account " << fromAccID << " to account " << toAccId
             << " new account " << "balance is " << new_source_balance << " new target account balance is "

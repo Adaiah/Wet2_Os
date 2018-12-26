@@ -1,8 +1,4 @@
 TODOs:
-* lockSetAccount -  Gal
-* unlockSetAccount - .
-* lockGetAccount -   . 
-* unlockGetAccount - .
 * Add this check to the mutex:
  if (!pthread_mutex_unlock(&Account_write)) {
          perror("Error ");
@@ -14,12 +10,9 @@ TODOs:
 
 Things to check:
 * run Guy's tests again
-* printing within a lock : problem at the transfer function
 * trying to open a file unsuccessfully
 * adding stderr to catch more problems
-* take commission out og setbalance -Adaiah
 * transfer -lock smaller accountID - Adaiah
-* getCommission func.
 
 
 
@@ -29,12 +22,14 @@ Check which been done:
     *problem fixed: insert new account (same account) in the same time in different. - insert_lock
 *Transfer to a non existing account   V
 * withdraw more than available(at with function as well as trannsfer function)	V
-* Transfer from and to the same account	V 
+* Transfer from and to the same account	V
 * function with not the right accountID	V
 * printing correctness	V
 * Did you lock all the accounts when printing the bank status to the screen?Yes V
 * bad run attempt "illegal argument"    V
 * understand bank status printing- not clear (פורום שאלות תחת הכותרת: הוראות הדפסה) V
+* printing within a lock : problem at the transfer function
+* getCommission func.
 
 
 
