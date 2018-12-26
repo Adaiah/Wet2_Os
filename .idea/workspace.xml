@@ -12,16 +12,11 @@
     <list default="true" id="71383b61-6228-4889-a26c-f3dfd8b2b94b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ATM.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/ATM.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ATM.o" beforeDir="false" afterPath="$PROJECT_DIR$/ATM.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Account.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Account.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Account.h" beforeDir="false" afterPath="$PROJECT_DIR$/Account.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Account.o" beforeDir="false" afterPath="$PROJECT_DIR$/Account.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Bank" beforeDir="false" afterPath="$PROJECT_DIR$/Bank" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Bank.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Bank.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Bank.o" beforeDir="false" afterPath="$PROJECT_DIR$/Bank.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.o" beforeDir="false" afterPath="$PROJECT_DIR$/main.o" afterDir="false" />
     </list>
     <list id="f261a92b-3282-4dd2-b114-2e79be9e8029" name="here are some changes I have made: I thought was more right to call amount-&gt; balance the password is now unsigned short int (enough for 5 digits) the balance is unsigned int the getPassword is now checkPassowrd returns bool" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -49,25 +44,26 @@
     <session id="1511971439">
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="657" />
-          <entry key="h" value="28" />
-          <entry key="txt" value="58" />
+          <entry key="cpp" value="1904" />
+          <entry key="h" value="230" />
+          <entry key="txt" value="100" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="ObjectiveC" value="685" />
-          <entry key="PLAIN_TEXT" value="58" />
+          <entry key="ObjectiveC" value="2134" />
+          <entry key="PLAIN_TEXT" value="100" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="cpp" value="1" />
+          <entry key="h" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="ObjectiveC" value="1" />
+          <entry key="ObjectiveC" value="2" />
         </counts>
       </usages-collector>
     </session>
@@ -110,8 +106,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Bank.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="26" column="21" lean-forward="true" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
+            <state relative-caret-position="595">
+              <caret line="53" column="6" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -119,8 +115,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Debug_super_Sababa.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+            <state relative-caret-position="255">
+              <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -135,28 +131,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Account.h">
+        <entry file="file://$PROJECT_DIR$/Account.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-204">
-              <caret line="33" column="14" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
+            <state relative-caret-position="850">
+              <caret line="165" selection-start-line="165" selection-end-line="165" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Account.cpp">
+        <entry file="file://$PROJECT_DIR$/ATM.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2074">
-              <caret line="122" selection-start-line="122" selection-end-line="122" />
+            <state relative-caret-position="442">
+              <caret line="213" column="50" selection-start-line="213" selection-start-column="50" selection-end-line="213" selection-end-column="50" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ATM.cpp">
+        <entry file="file://$PROJECT_DIR$/Account.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="61" column="38" selection-start-line="61" selection-start-column="38" selection-end-line="61" selection-end-column="38" />
+            <state relative-caret-position="551">
+              <caret line="65" column="30" selection-start-line="65" selection-start-column="30" selection-end-line="65" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -181,6 +177,12 @@
       <find>finished_all_actions</find>
       <find>writing</find>
       <find>debug</find>
+      <find>printAcc</find>
+      <find>getBala</find>
+      <find>printBal</find>
+      <find>printB</find>
+      <find>getAccV`</find>
+      <find>getAccountI</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -195,14 +197,15 @@
         <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/Bank.h" />
         <option value="$PROJECT_DIR$/Debug_super_Sababa.txt" />
-        <option value="$PROJECT_DIR$/Account.h" />
-        <option value="$PROJECT_DIR$/Account.cpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
-        <option value="$PROJECT_DIR$/Bank.cpp" />
         <option value="$PROJECT_DIR$/ATM.cpp" />
+        <option value="$PROJECT_DIR$/Bank.cpp" />
+        <option value="$PROJECT_DIR$/Account.cpp" />
+        <option value="$PROJECT_DIR$/Account.h" />
       </list>
     </option>
   </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-11" />
     <option name="width" value="980" />
@@ -261,14 +264,12 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/ATM.cpp</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/ATM.o</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/Bank</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/Account.cpp</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/Account.h</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/Bank.cpp</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/Bank.h</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/Debug_super_Sababa.txt</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/log.txt</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main.cpp</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main.o</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -283,6 +284,10 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="true" />
           <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/ATM.o</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/Account.o</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/Bank.o</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/main.o</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Restored" />
@@ -405,11 +410,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545683496079</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fixed the problems- working pretty nicely">
+      <created>1545689650292</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1545689650292</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="92819000" />
+    <option name="totallyTimeSpent" value="99951000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -424,6 +436,27 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49838188" weight="0.1391258" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" sideWeight="0.50161815" side_tool="true" weight="0.2457356" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49878544" weight="0.44404975" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.329718" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.329718" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50159913" side_tool="true" weight="0.2505423" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49840087" weight="0.2505423" />
+      <window_info anchor="bottom" id="CMake" order="11" sideWeight="0.49878544" weight="0.20603907" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.32995737" />
+    </layout>
+    <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49838188" visible="true" weight="0.1391258" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.50161815" side_tool="true" weight="0.2457356" />
@@ -436,30 +469,9 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.329718" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="9" sideWeight="0.50159913" side_tool="true" visible="true" weight="0.2505423" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49840087" visible="true" weight="0.2505423" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50159913" side_tool="true" visible="true" weight="0.2505423" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.49840087" visible="true" weight="0.2505423" />
       <window_info anchor="bottom" id="CMake" order="11" sideWeight="0.49878544" weight="0.20603907" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" weight="0.32995737" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49838188" visible="true" weight="0.13846155" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" sideWeight="0.50161815" side_tool="true" weight="0.2457356" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.44404975" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.329718" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.329718" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50121456" side_tool="true" weight="0.40319717" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49878544" weight="0.0806271" />
-      <window_info anchor="bottom" id="CMake" order="11" weight="0.20716685" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -511,7 +523,8 @@
       <path value="$USER_HOME$" />
     </ignored-roots>
     <MESSAGE value="new transfer new life - didn't debug it yet" />
-    <option name="LAST_COMMIT_MESSAGE" value="new transfer new life - didn't debug it yet" />
+    <MESSAGE value="fixed the problems- working pretty nicely" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed the problems- working pretty nicely" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/cmake-build-debug/Makefile">
@@ -537,8 +550,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Debug_super_Sababa.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        <state relative-caret-position="255">
+          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -558,29 +571,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Bank.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="26" column="21" lean-forward="true" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Account.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret line="33" column="14" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
+        <state relative-caret-position="595">
+          <caret line="53" column="6" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Account.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2074">
-          <caret line="122" selection-start-line="122" selection-end-line="122" />
+        <state relative-caret-position="850">
+          <caret line="165" selection-start-line="165" selection-end-line="165" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ATM.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="61" column="38" selection-start-line="61" selection-start-column="38" selection-end-line="61" selection-end-column="38" />
+        <state relative-caret-position="442">
+          <caret line="213" column="50" selection-start-line="213" selection-start-column="50" selection-end-line="213" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Account.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="65" column="30" selection-start-line="65" selection-start-column="30" selection-end-line="65" selection-end-column="30" />
         </state>
       </provider>
     </entry>

@@ -49,15 +49,18 @@ void *printStatus(void* args){
 //**************************************************************************************
 void *getCommissions (void* args){
     map<int, Account>::iterator it;
-    double commission_rate;
+    int commission_rate;
     while(!finished_all_actions) {
         sleep(3);
         commission_rate = rand() % 3 + 2; //TODO: MAKE SURE THIS IS THE RIGHT DEFINITION
+
+        // from the forum - in order to get coherent log lock the whole Bank
+        pthread_mutex_lock(&snapshot_mut);
         for (it = bank_accounts.begin(); it != bank_accounts.end(); it++) {
-            it->second.lockSetAccount();
             it->second.takeCommission(commission_rate);
-            it->second.unlockSetAccount();
         }
+        pthread_mutex_unlock(&snapshot_mut);
+
     }
     pthread_exit(NULL);
 }

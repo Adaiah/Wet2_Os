@@ -26,7 +26,7 @@ void *ATMAction(void* args){
     ifstream inputFile(atm_args->input_file.c_str());
     if(!inputFile.is_open()){//check file successfully opened
         perror("Error ");
-        exit(1);
+        pthread_exit(NULL);
     }
     int ATM_id=atm_args->ATM_ID;
     string curr_line;
@@ -67,8 +67,6 @@ void *ATMAction(void* args){
     inputFile.close();
     pthread_exit(NULL);
 }
-
-
 
 
 //********************************************
@@ -157,7 +155,7 @@ void Deposit(int AtmID, int accountId, int password, int amount){
         pthread_mutex_unlock(&log_write_mut);
         return;
     }
-    bank_accounts[accountId].setBalance(DEPOSIT,amount,0, AtmID);
+    bank_accounts[accountId].setBalance(DEPOSIT,amount, AtmID);
     return;
  }
 
@@ -185,7 +183,7 @@ void checkAmount(int AtmID, int accountId, int password) {
         pthread_mutex_unlock(&log_write_mut);
         return;
     }
-    bank_accounts[accountId].getBalance(true, AtmID);
+    bank_accounts[accountId].printBalance(AtmID);
     return;
 
  }
@@ -263,7 +261,7 @@ void withdraw(int AtmID, int accountID, unsigned short int password, unsigned in
         return;
     }
 
-    bank_accounts[accountID].setBalance(WITHDRAW,amount,0,AtmID);
+    bank_accounts[accountID].setBalance(WITHDRAW,amount,AtmID);
     return;
 }
 
@@ -307,12 +305,12 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
 
     //locking the balances for reading and writing for both of the accounts
     if(fromAccID>toAccId) { // lock the account with lower accountID first to avoid deadlock
-        bank_accounts[toAccId].lockSetBalance();
-        bank_accounts[fromAccID].lockSetBalance();
+        bank_accounts[toAccId].lockSetAccount();
+        bank_accounts[fromAccID].lockSetAccount();
     }
     else {
-        bank_accounts[fromAccID].lockSetBalance();
-        bank_accounts[toAccId].lockSetBalance();
+        bank_accounts[fromAccID].lockSetAccount();
+        bank_accounts[toAccId].lockSetAccount();
 
     }
     unsigned int curr_from_balance = bank_accounts[fromAccID].balance;
@@ -322,8 +320,8 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
         logfile << "Error " << AtmID << ": Your transaction failed - account id " << fromAccID << " balance is lower than "
              << amount << endl;
         pthread_mutex_unlock(&log_write_mut);
-        bank_accounts[fromAccID].unlockSetBalance();
-        bank_accounts[toAccId].unlockSetBalance();
+        bank_accounts[fromAccID].unlockSetAccount();
+        bank_accounts[toAccId].unlockSetAccount();
         return;
     }
 
@@ -339,8 +337,8 @@ void transfer(int AtmID, int fromAccID, unsigned short int password, int toAccId
 
     //unlocking the balances for reading and writing for both of the accounts
     // unlocking does not care for the position of id within the map
-    bank_accounts[fromAccID].unlockSetBalance();
-    bank_accounts[toAccId].unlockSetBalance();
+    bank_accounts[fromAccID].unlockSetAccount();
+    bank_accounts[toAccId].unlockSetAccount();
 
     return;
 }

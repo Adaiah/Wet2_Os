@@ -13,16 +13,12 @@
 // Returns: N/A
 //**************************************************************************************
 Account::Account(int accountId , unsigned short int password  , int balance):accountId(accountId),
-        password(password), balance(balance), isVIP(false), balance_readcount(0), balance_writecount(0),
-        commission_taken(0), vip_readcount(0), vip_writecount(0){
-    pthread_mutex_init(&balance_read, NULL);
-    pthread_mutex_init(&balance_write, NULL);
-    pthread_mutex_init(&balance_readtry, NULL);
-    pthread_mutex_init(&balance_resource, NULL);
-    pthread_mutex_init(&vip_read, NULL);
-    pthread_mutex_init(&vip_readtry, NULL);
-    pthread_mutex_init(&vip_resource, NULL);
-    pthread_mutex_init(&vip_write, NULL);
+        password(password), balance(balance), isVIP(false), account_readcount(0), account_writecount(0),
+        commission_taken(0){
+    pthread_mutex_init(&account_read, NULL);
+    pthread_mutex_init(&account_write, NULL);
+    pthread_mutex_init(&account_readtry, NULL);
+    pthread_mutex_init(&account_resource, NULL);
 
 }
 
@@ -33,54 +29,60 @@ Account::Account(int accountId , unsigned short int password  , int balance):acc
 // Returns: N/A
 //**************************************************************************************
 Account::~Account(){
-    if(!pthread_mutex_unlock(&Account_read)) {
-        pthread_mutex_unlock(&Account_read);
+    if(!pthread_mutex_trylock(&account_read)) {
+        pthread_mutex_unlock(&account_read);
     }
-    else    pthread_mutex_destroy(&Account_read);
+    else
+        pthread_mutex_destroy(&account_read);
 
-    if(!pthread_mutex_trylock(&Account_write) {
-        pthread_mutex_unlock(&Account_write);
+    if(!pthread_mutex_trylock(&account_write)) {
+        pthread_mutex_unlock(&account_write);
     }
-            else pthread_mutex_destroy(&Account_write);
+    else
+        pthread_mutex_destroy(&account_write);
 
+
+    if(!pthread_mutex_trylock(&account_readtry)) {
+        pthread_mutex_unlock(&account_readtry);
+    }
+    else
+        pthread_mutex_destroy(&account_readtry);
+
+
+    if(!pthread_mutex_trylock(&account_resource)) {
+        pthread_mutex_unlock(&account_resource);
+    }
+    else
+        pthread_mutex_destroy(&account_resource);
 }
 
 
 //Methods to access data individually
 
 //********************************************
-// function name: getBalance
+// function name: printBalance
 // Description: gets balance in the account
 // Parameters: N/A
 // Returns: N/A
 //**************************************************************************************
-unsigned int Account::getBalance(bool bank_or_atm, unsigned int atm_id){
+void Account::printBalance(unsigned int atm_id){
 
     unsigned int curr_balance = 0 ;
-    pthread_mutex_lock(&balance_readtry);
-    pthread_mutex_lock(&balance_read);
-    balance_readcount++;
-    if (balance_readcount == 1)
-        pthread_mutex_lock(&balance_resource);
-    pthread_mutex_unlock(&balance_read);
-    pthread_mutex_unlock(&balance_readtry);
+
+    // reader lock
+    this->lockGetAccount();
 
     curr_balance = this->balance;
 
-    if(bank_or_atm) {
-        sleep(1);
-        pthread_mutex_lock(&log_write_mut);
-        logfile << atm_id << ": Account " << this->accountId << " balance is " << curr_balance << endl;
-        pthread_mutex_unlock(&log_write_mut);
-    }
+    sleep(1);
+    pthread_mutex_lock(&log_write_mut);
+    logfile << atm_id << ": Account " << this->accountId << " balance is " << curr_balance << endl;
+    pthread_mutex_unlock(&log_write_mut);
 
-    pthread_mutex_lock(&balance_read);
-    balance_readcount--;
-    if (balance_readcount == 0)
-        pthread_mutex_unlock(&balance_resource);
-    pthread_mutex_unlock(&balance_read);
+    // reader unlock
+    this->unlockGetAccount();
 
-    return curr_balance;
+    return;
 }
 
 //********************************************
@@ -92,34 +94,6 @@ unsigned int Account::getBalance(bool bank_or_atm, unsigned int atm_id){
 int Account:: getAccountId(){
 
     return accountId;
-}
-
-//********************************************
-// function name: getAccVIP
-// Description: retuns whether the aacount is VIP or not
-// Parameters: NONE
-// Returns: true- VIP, false- not VIP
-//**************************************************************************************
-bool Account::getAccVIP(){
-
-    bool curr_VIP_status = false ;
-    pthread_mutex_lock(&this->vip_readtry);
-    pthread_mutex_lock(&this->vip_read);
-    vip_readcount++;
-    if (vip_readcount == 1)
-        pthread_mutex_lock(&this->vip_resource);
-    pthread_mutex_unlock(&this->vip_read);
-    pthread_mutex_unlock(&this->vip_readtry);
-
-
-    curr_VIP_status = this->isVIP;
-    pthread_mutex_lock(&this->vip_read);
-    vip_readcount--;
-    if (vip_readcount == 0)
-        pthread_mutex_unlock(&this->vip_resource);
-    pthread_mutex_unlock(&this->vip_read);
-
-    return curr_VIP_status;
 }
 
 
@@ -144,24 +118,12 @@ bool Account::checkPassword(unsigned short int password) {
 //**************************************************************************************
 void Account::setAccVIP(){
 
-    pthread_mutex_lock(&vip_write);
-    vip_writecount++;
-    if (vip_writecount == 1)
-        pthread_mutex_lock(&vip_readtry);
-    pthread_mutex_unlock(&vip_write);
-
-    pthread_mutex_lock(&vip_resource);
+    this->lockSetAccount();
 
     this->isVIP=true;
     sleep(1);
 
-    pthread_mutex_unlock(&vip_resource);
-
-    pthread_mutex_lock(&vip_write);
-    vip_writecount--;
-    if(vip_writecount == 0)
-        pthread_mutex_unlock(&vip_readtry);
-    pthread_mutex_unlock(&vip_write);
+    this->unlockSetAccount();
 }
 
 
@@ -194,6 +156,8 @@ void Account::takeCommission( double commission_rate){
         pthread_mutex_lock(&log_write_mut);
         logfile<<"Bank: commission of " << commission_rate << " % " << "were charged, the bank gained " << commission << " $ from account " << getAccountId() << endl;
         pthread_mutex_unlock(&log_write_mut);
+
+        //add the commission taken to the place which thr bank can take in the printBank
         this->addCommission(commission);
 
     }
@@ -209,9 +173,12 @@ void Account::takeCommission( double commission_rate){
 //**************************************************************************************
 int Account::setBalance(ATM_Action atm_action, int amount, unsigned int atm_id ) {
     int curr_balance = 0;
-    this->lockSetBalance();
+
+    // writers lock
+    this->lockSetAccount();
+
     sleep(1);
-    if((atm_action == WITHDRAW) ) ){  //decrease
+    if((atm_action == WITHDRAW) ) {  //decrease
         if ((balance - amount ) < 0){ //if turn into to negative
             curr_balance = -1;
         } else{
@@ -245,22 +212,22 @@ int Account::setBalance(ATM_Action atm_action, int amount, unsigned int atm_id )
         }
     }
 
-
-    this->unlockSetBalance();
+    // writers unlock
+    this->unlockSetAccount();
 
     return curr_balance;
 }
 //********************************************
 // function name: printAccount
-// Description:
-// Parameters:
-// Returns:
+// Description: prints the account main details (id, balance, password)
+// Parameters: none
+// Returns: none
 //**************************************************************************************
-unsigned int Account::printAccount(){
-    unsigned int curr_balance = this->getBalance(false, 0);
-    cout <<"Account "<< this->getAccountId() <<": Balance - " << curr_balance
+void Account::printAccount(){
+    // no need for lock because under bank lock
+    cout <<"Account "<< this->accountId <<": Balance - " << this->balance
         << " $ , Account Password - " << this->password << endl;
-    return curr_balance;
+    return ;
 }
 
 
@@ -272,14 +239,21 @@ unsigned int Account::printAccount(){
 // Returns: int
 //**************************************************************************************
 int Account::getCommissionTaken(){
+    //no need for lock because under bank lock
     int commission = this->commission_taken;
     this->commission_taken = 0;
     return commission;
 }
 
 
-void Account::lockSetBalance(){
-    // concurrency between the snapshot printing and editing the balances
+//********************************************
+// function name: lockSetAccount
+// Description: lock the account for writer
+// Parameters: none
+// Returns: none
+//**************************************************************************************
+void Account::lockSetAccount(){
+    // concurrency between Bank lock (locks all the accounts for writing)
     pthread_mutex_lock(&writing_mut);
     snapshot_writing_counter++;
     if(snapshot_writing_counter == 1)
@@ -288,28 +262,35 @@ void Account::lockSetBalance(){
 
 
     // concurrency between reading-writing to balance priority to writing
-    pthread_mutex_lock(&balance_write);
-    balance_writecount++;
+    pthread_mutex_lock(&account_write);
+    account_writecount++;
 
-    if (balance_writecount == 1)
-        pthread_mutex_lock(&balance_readtry);
-    pthread_mutex_unlock(&balance_write);
+    if (account_writecount == 1)
+        pthread_mutex_lock(&account_readtry);
+    pthread_mutex_unlock(&account_write);
 
-    pthread_mutex_lock(&balance_resource);
+    pthread_mutex_lock(&account_resource);
 }
 
-void Account::unlockSetBalance(){
 
-    pthread_mutex_unlock(&balance_resource);
+//********************************************
+// function name: unlockSetAccount
+// Description: unlock the account for writer
+// Parameters: none
+// Returns: none
+//**************************************************************************************
+void Account::unlockSetAccount(){
+
+    pthread_mutex_unlock(&account_resource);
     // concurrency between reading-writing to balance priority to writing
-    pthread_mutex_lock(&balance_write);
-    balance_writecount--;
-    if(balance_writecount == 0)
-        pthread_mutex_unlock(&balance_readtry);
-    pthread_mutex_unlock(&balance_write);
+    pthread_mutex_lock(&account_write);
+    account_writecount--;
+    if(account_writecount == 0)
+        pthread_mutex_unlock(&account_readtry);
+    pthread_mutex_unlock(&account_write);
 
 
-    // concurrency between the snapshot printing and editing the balances
+    // concurrency between Bank lock (locks all the accounts for writing)
     pthread_mutex_lock(&writing_mut);
     snapshot_writing_counter--;
     if(snapshot_writing_counter == 0)
@@ -318,3 +299,34 @@ void Account::unlockSetBalance(){
 }
 
 
+//********************************************
+// function name: lockGetAccount
+// Description: lock the account for readers
+// Parameters: none
+// Returns: none
+//**************************************************************************************
+void Account::lockGetAccount(){
+
+    pthread_mutex_lock(&account_readtry);
+    pthread_mutex_lock(&account_read);
+    account_readcount++;
+    if (account_readcount == 1)
+        pthread_mutex_lock(&account_resource);
+    pthread_mutex_unlock(&account_read);
+    pthread_mutex_unlock(&account_readtry);
+}
+
+
+//********************************************
+// function name: unlockGetAccount
+// Description: unlock the account for readers
+// Parameters: none
+// Returns: none
+//**************************************************************************************
+void Account::unlockGetAccount(){
+    pthread_mutex_lock(&account_read);
+    account_readcount--;
+    if (account_readcount == 0)
+        pthread_mutex_unlock(&account_resource);
+    pthread_mutex_unlock(&account_read);
+}

@@ -31,16 +31,11 @@ private:
     unsigned short int password;
     unsigned int commission_taken;
     bool isVIP;
-    pthread_mutex_t vip_read;
-    pthread_mutex_t vip_write;
-    pthread_mutex_t vip_readtry;
-    pthread_mutex_t vip_resource;
-    int vip_readcount, vip_writecount;
-    int balance_readcount, balance_writecount;
-    pthread_mutex_t balance_read;
-    pthread_mutex_t balance_write;
-    pthread_mutex_t balance_readtry;
-    pthread_mutex_t balance_resource;
+    int account_readcount, account_writecount;
+    pthread_mutex_t account_read;
+    pthread_mutex_t account_write;
+    pthread_mutex_t account_readtry;
+    pthread_mutex_t account_resource;
 
 
 
@@ -56,28 +51,37 @@ public:
     //Methods to access data individually
     int getAccountId();
 
-    unsigned int getBalance( bool bank_or_Atm, unsigned int atm_id); //bank = false, atm = true
-
-    bool getAccVIP();
-
     unsigned short int getPassword();
 
     bool checkPassword(unsigned short int password);
 
     int getCommissionTaken();
 
-        //Methods to change  the data
+    //Methods to change  the data
+
     void setAccVIP();
+
     void addCommission(int commission);
 
-    int setBalance(ATM_Action atm_action, int amount, double commission_rate ,unsigned int atm_id );
+    void takeCommission( double commission_rate);
 
-    unsigned int printAccount();
+    int setBalance(ATM_Action atm_action, int amount,unsigned int atm_id );
 
-    void lockSetBalance();
+    //print function
 
-    void unlockSetBalance();
-    void takeCommission( double commission_rate)
+    void printAccount();
+
+    void printBalance(unsigned int atm_id);
+
+    // lock-unlock function
+
+    void lockSetAccount();
+
+    void unlockSetAccount();
+
+    void lockGetAccount();
+
+    void unlockGetAccount();
 };
 
 #endif //WET2_ACCOUNT_H
